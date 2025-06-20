@@ -2,7 +2,7 @@
 
 package tarea.node;
 
-public abstract class PItem1 extends Node
+public abstract class PItem extends Node
 {
     // Empty body
 }

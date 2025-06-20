@@ -5,26 +5,26 @@ package tarea.node;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AStrDeclarationAssignmentDeclaration extends PDeclaration
+public final class ADoubleDeclaration extends PDeclaration
 {
-    private TStr _str_;
-    private PAssignment _assignment_;
+    private TDouble _double_;
+    private TVar _var_;
     private TSemicolon _semicolon_;
 
-    public AStrDeclarationAssignmentDeclaration()
+    public ADoubleDeclaration()
     {
         // Constructor
     }
 
-    public AStrDeclarationAssignmentDeclaration(
-        @SuppressWarnings("hiding") TStr _str_,
-        @SuppressWarnings("hiding") PAssignment _assignment_,
+    public ADoubleDeclaration(
+        @SuppressWarnings("hiding") TDouble _double_,
+        @SuppressWarnings("hiding") TVar _var_,
         @SuppressWarnings("hiding") TSemicolon _semicolon_)
     {
         // Constructor
-        setStr(_str_);
+        setDouble(_double_);
 
-        setAssignment(_assignment_);
+        setVar(_var_);
 
         setSemicolon(_semicolon_);
 
@@ -33,28 +33,28 @@ public final class AStrDeclarationAssignmentDeclaration extends PDeclaration
     @Override
     public Object clone()
     {
-        return new AStrDeclarationAssignmentDeclaration(
-            cloneNode(this._str_),
-            cloneNode(this._assignment_),
+        return new ADoubleDeclaration(
+            cloneNode(this._double_),
+            cloneNode(this._var_),
             cloneNode(this._semicolon_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAStrDeclarationAssignmentDeclaration(this);
+        ((Analysis) sw).caseADoubleDeclaration(this);
     }
 
-    public TStr getStr()
+    public TDouble getDouble()
     {
-        return this._str_;
+        return this._double_;
     }
 
-    public void setStr(TStr node)
+    public void setDouble(TDouble node)
     {
-        if(this._str_ != null)
+        if(this._double_ != null)
         {
-            this._str_.parent(null);
+            this._double_.parent(null);
         }
 
         if(node != null)
@@ -67,19 +67,19 @@ public final class AStrDeclarationAssignmentDeclaration extends PDeclaration
             node.parent(this);
         }
 
-        this._str_ = node;
+        this._double_ = node;
     }
 
-    public PAssignment getAssignment()
+    public TVar getVar()
     {
-        return this._assignment_;
+        return this._var_;
     }
 
-    public void setAssignment(PAssignment node)
+    public void setVar(TVar node)
     {
-        if(this._assignment_ != null)
+        if(this._var_ != null)
         {
-            this._assignment_.parent(null);
+            this._var_.parent(null);
         }
 
         if(node != null)
@@ -92,7 +92,7 @@ public final class AStrDeclarationAssignmentDeclaration extends PDeclaration
             node.parent(this);
         }
 
-        this._assignment_ = node;
+        this._var_ = node;
     }
 
     public TSemicolon getSemicolon()
@@ -124,8 +124,8 @@ public final class AStrDeclarationAssignmentDeclaration extends PDeclaration
     public String toString()
     {
         return ""
-            + toString(this._str_)
-            + toString(this._assignment_)
+            + toString(this._double_)
+            + toString(this._var_)
             + toString(this._semicolon_);
     }
 
@@ -133,15 +133,15 @@ public final class AStrDeclarationAssignmentDeclaration extends PDeclaration
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._str_ == child)
+        if(this._double_ == child)
         {
-            this._str_ = null;
+            this._double_ = null;
             return;
         }
 
-        if(this._assignment_ == child)
+        if(this._var_ == child)
         {
-            this._assignment_ = null;
+            this._var_ = null;
             return;
         }
 
@@ -158,15 +158,15 @@ public final class AStrDeclarationAssignmentDeclaration extends PDeclaration
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._str_ == oldChild)
+        if(this._double_ == oldChild)
         {
-            setStr((TStr) newChild);
+            setDouble((TDouble) newChild);
             return;
         }
 
-        if(this._assignment_ == oldChild)
+        if(this._var_ == oldChild)
         {
-            setAssignment((PAssignment) newChild);
+            setVar((TVar) newChild);
             return;
         }
 

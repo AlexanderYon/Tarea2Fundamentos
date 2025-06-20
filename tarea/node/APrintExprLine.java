@@ -5,23 +5,23 @@ package tarea.node;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
-public final class APrintNumberLine extends PLine
+public final class APrintExprLine extends PLine
 {
     private TPrint _print_;
     private TLPar _lPar_;
-    private TNumber _number_;
+    private PExpr _expr_;
     private TRPar _rPar_;
     private TSemicolon _semicolon_;
 
-    public APrintNumberLine()
+    public APrintExprLine()
     {
         // Constructor
     }
 
-    public APrintNumberLine(
+    public APrintExprLine(
         @SuppressWarnings("hiding") TPrint _print_,
         @SuppressWarnings("hiding") TLPar _lPar_,
-        @SuppressWarnings("hiding") TNumber _number_,
+        @SuppressWarnings("hiding") PExpr _expr_,
         @SuppressWarnings("hiding") TRPar _rPar_,
         @SuppressWarnings("hiding") TSemicolon _semicolon_)
     {
@@ -30,7 +30,7 @@ public final class APrintNumberLine extends PLine
 
         setLPar(_lPar_);
 
-        setNumber(_number_);
+        setExpr(_expr_);
 
         setRPar(_rPar_);
 
@@ -41,10 +41,10 @@ public final class APrintNumberLine extends PLine
     @Override
     public Object clone()
     {
-        return new APrintNumberLine(
+        return new APrintExprLine(
             cloneNode(this._print_),
             cloneNode(this._lPar_),
-            cloneNode(this._number_),
+            cloneNode(this._expr_),
             cloneNode(this._rPar_),
             cloneNode(this._semicolon_));
     }
@@ -52,7 +52,7 @@ public final class APrintNumberLine extends PLine
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAPrintNumberLine(this);
+        ((Analysis) sw).caseAPrintExprLine(this);
     }
 
     public TPrint getPrint()
@@ -105,16 +105,16 @@ public final class APrintNumberLine extends PLine
         this._lPar_ = node;
     }
 
-    public TNumber getNumber()
+    public PExpr getExpr()
     {
-        return this._number_;
+        return this._expr_;
     }
 
-    public void setNumber(TNumber node)
+    public void setExpr(PExpr node)
     {
-        if(this._number_ != null)
+        if(this._expr_ != null)
         {
-            this._number_.parent(null);
+            this._expr_.parent(null);
         }
 
         if(node != null)
@@ -127,7 +127,7 @@ public final class APrintNumberLine extends PLine
             node.parent(this);
         }
 
-        this._number_ = node;
+        this._expr_ = node;
     }
 
     public TRPar getRPar()
@@ -186,7 +186,7 @@ public final class APrintNumberLine extends PLine
         return ""
             + toString(this._print_)
             + toString(this._lPar_)
-            + toString(this._number_)
+            + toString(this._expr_)
             + toString(this._rPar_)
             + toString(this._semicolon_);
     }
@@ -207,9 +207,9 @@ public final class APrintNumberLine extends PLine
             return;
         }
 
-        if(this._number_ == child)
+        if(this._expr_ == child)
         {
-            this._number_ = null;
+            this._expr_ = null;
             return;
         }
 
@@ -244,9 +244,9 @@ public final class APrintNumberLine extends PLine
             return;
         }
 
-        if(this._number_ == oldChild)
+        if(this._expr_ == oldChild)
         {
-            setNumber((TNumber) newChild);
+            setExpr((PExpr) newChild);
             return;
         }
 

@@ -5,26 +5,26 @@ package tarea.node;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AIntDeclarationDeclaration extends PDeclaration
+public final class AIntAssignmentDeclaration extends PDeclaration
 {
     private TInt _int_;
-    private TVar _var_;
+    private PAssignment _assignment_;
     private TSemicolon _semicolon_;
 
-    public AIntDeclarationDeclaration()
+    public AIntAssignmentDeclaration()
     {
         // Constructor
     }
 
-    public AIntDeclarationDeclaration(
+    public AIntAssignmentDeclaration(
         @SuppressWarnings("hiding") TInt _int_,
-        @SuppressWarnings("hiding") TVar _var_,
+        @SuppressWarnings("hiding") PAssignment _assignment_,
         @SuppressWarnings("hiding") TSemicolon _semicolon_)
     {
         // Constructor
         setInt(_int_);
 
-        setVar(_var_);
+        setAssignment(_assignment_);
 
         setSemicolon(_semicolon_);
 
@@ -33,16 +33,16 @@ public final class AIntDeclarationDeclaration extends PDeclaration
     @Override
     public Object clone()
     {
-        return new AIntDeclarationDeclaration(
+        return new AIntAssignmentDeclaration(
             cloneNode(this._int_),
-            cloneNode(this._var_),
+            cloneNode(this._assignment_),
             cloneNode(this._semicolon_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAIntDeclarationDeclaration(this);
+        ((Analysis) sw).caseAIntAssignmentDeclaration(this);
     }
 
     public TInt getInt()
@@ -70,16 +70,16 @@ public final class AIntDeclarationDeclaration extends PDeclaration
         this._int_ = node;
     }
 
-    public TVar getVar()
+    public PAssignment getAssignment()
     {
-        return this._var_;
+        return this._assignment_;
     }
 
-    public void setVar(TVar node)
+    public void setAssignment(PAssignment node)
     {
-        if(this._var_ != null)
+        if(this._assignment_ != null)
         {
-            this._var_.parent(null);
+            this._assignment_.parent(null);
         }
 
         if(node != null)
@@ -92,7 +92,7 @@ public final class AIntDeclarationDeclaration extends PDeclaration
             node.parent(this);
         }
 
-        this._var_ = node;
+        this._assignment_ = node;
     }
 
     public TSemicolon getSemicolon()
@@ -125,7 +125,7 @@ public final class AIntDeclarationDeclaration extends PDeclaration
     {
         return ""
             + toString(this._int_)
-            + toString(this._var_)
+            + toString(this._assignment_)
             + toString(this._semicolon_);
     }
 
@@ -139,9 +139,9 @@ public final class AIntDeclarationDeclaration extends PDeclaration
             return;
         }
 
-        if(this._var_ == child)
+        if(this._assignment_ == child)
         {
-            this._var_ = null;
+            this._assignment_ = null;
             return;
         }
 
@@ -164,9 +164,9 @@ public final class AIntDeclarationDeclaration extends PDeclaration
             return;
         }
 
-        if(this._var_ == oldChild)
+        if(this._assignment_ == oldChild)
         {
-            setVar((TVar) newChild);
+            setAssignment((PAssignment) newChild);
             return;
         }
 

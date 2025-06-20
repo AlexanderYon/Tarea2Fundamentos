@@ -10,8 +10,6 @@ Helpers
 
 Tokens
   comment = '/*' comment_char* '*/';
-  int_literal = digit+;
-  double_literal = digit+ '.' digit+;
   number = digit+ | digit+ '.' digit+;
   string_literal = '"' non_quote* '"';
   int = 'int';
@@ -25,47 +23,46 @@ Tokens
   l_par = '(';
   r_par = ')';
   semicolon = ';';
-  equals = '=';
   double_equals = '==';
   not_equals = '!=';
-  less = '<';
   less_eq = '<=';
-  greater = '>';
   greater_eq = '>=';
+  equals = '=';
+  less = '<';
+  greater = '>';
   and = '&&';
   or = '||';
   if = 'if';
   else = 'else';
   l_bracket = '{';
   r_bracket = '}';
-  var = ['a' .. 'z'] (['a' .. 'z'] | ['0' .. '9'])*;
   print = 'print';
   println = 'println';
   main = 'main';
   while = 'while';
   input = 'input';
+  var = ['a' .. 'z'] (['a' .. 'z'] | ['0' .. '9'])*;
   blank = ( ' ' | 13 | 10 )+;
 
 Ignored Tokens
   blank, comment;
 
-Productions
+Productions  
   main_program = main l_par r_par l_bracket program r_bracket;
 
   program = {format} declaration* line*;
 
   declaration = 
-    {int_declaration} int var semicolon | 
-    {str_declaration} str var semicolon | 
-    {double_declaration} double var semicolon | 
-    {int_declaration_assignment} int assignment semicolon | 
-    {str_declaration_assignment} str assignment semicolon | 
-    {double_declaration_assignment} double assignment semicolon;
+    {int} int var semicolon | 
+    {str} str var semicolon | 
+    {double} double var semicolon | 
+    {int_assignment} int assignment semicolon | 
+    {str_assignment} str assignment semicolon | 
+    {double_assignment} double assignment semicolon;
 
   line = 
-    {print_var} print l_par var r_par semicolon | 
+    {print_expr} print l_par expr r_par semicolon | 
     {print_string} print l_par string_literal r_par semicolon|
-    {print_number} print l_par number r_par semicolon |
     {input} input l_par var r_par semicolon |
     {flow_control} flow_control |
     {assignment} assignment semicolon;
@@ -83,22 +80,16 @@ Productions
     {or} condition or second_condition;
 
   second_condition = 
-    {equals} item1 equals item2 |
-    {not_equals} item1 not_equals item2 |
-    {greater} item1 greater item2 |
-    {greater_eq} item1 greater_eq item2 |
-    {less} item1 less item2 |
-    {less_eq} item1 less_eq item2 |
+    {equals} var equals item |
+    {not_equals} var not_equals item |
+    {greater} var greater item |
+    {greater_eq} var greater_eq item |
+    {less} var less item |
+    {less_eq} var less_eq item |
     {grouped} l_par condition r_par;
 
-  item1 =
-    {var} var |
-    {number} number |
-    {str} string_literal;
-
-  item2 = 
-    {var} var |
-    {number} number |
+  item = 
+    {expr} expr |
     {str} string_literal;
 
   assignment = 

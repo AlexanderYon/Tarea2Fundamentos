@@ -5,26 +5,26 @@ package tarea.node;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AIntDeclarationAssignmentDeclaration extends PDeclaration
+public final class AStrDeclaration extends PDeclaration
 {
-    private TInt _int_;
-    private PAssignment _assignment_;
+    private TStr _str_;
+    private TVar _var_;
     private TSemicolon _semicolon_;
 
-    public AIntDeclarationAssignmentDeclaration()
+    public AStrDeclaration()
     {
         // Constructor
     }
 
-    public AIntDeclarationAssignmentDeclaration(
-        @SuppressWarnings("hiding") TInt _int_,
-        @SuppressWarnings("hiding") PAssignment _assignment_,
+    public AStrDeclaration(
+        @SuppressWarnings("hiding") TStr _str_,
+        @SuppressWarnings("hiding") TVar _var_,
         @SuppressWarnings("hiding") TSemicolon _semicolon_)
     {
         // Constructor
-        setInt(_int_);
+        setStr(_str_);
 
-        setAssignment(_assignment_);
+        setVar(_var_);
 
         setSemicolon(_semicolon_);
 
@@ -33,28 +33,28 @@ public final class AIntDeclarationAssignmentDeclaration extends PDeclaration
     @Override
     public Object clone()
     {
-        return new AIntDeclarationAssignmentDeclaration(
-            cloneNode(this._int_),
-            cloneNode(this._assignment_),
+        return new AStrDeclaration(
+            cloneNode(this._str_),
+            cloneNode(this._var_),
             cloneNode(this._semicolon_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAIntDeclarationAssignmentDeclaration(this);
+        ((Analysis) sw).caseAStrDeclaration(this);
     }
 
-    public TInt getInt()
+    public TStr getStr()
     {
-        return this._int_;
+        return this._str_;
     }
 
-    public void setInt(TInt node)
+    public void setStr(TStr node)
     {
-        if(this._int_ != null)
+        if(this._str_ != null)
         {
-            this._int_.parent(null);
+            this._str_.parent(null);
         }
 
         if(node != null)
@@ -67,19 +67,19 @@ public final class AIntDeclarationAssignmentDeclaration extends PDeclaration
             node.parent(this);
         }
 
-        this._int_ = node;
+        this._str_ = node;
     }
 
-    public PAssignment getAssignment()
+    public TVar getVar()
     {
-        return this._assignment_;
+        return this._var_;
     }
 
-    public void setAssignment(PAssignment node)
+    public void setVar(TVar node)
     {
-        if(this._assignment_ != null)
+        if(this._var_ != null)
         {
-            this._assignment_.parent(null);
+            this._var_.parent(null);
         }
 
         if(node != null)
@@ -92,7 +92,7 @@ public final class AIntDeclarationAssignmentDeclaration extends PDeclaration
             node.parent(this);
         }
 
-        this._assignment_ = node;
+        this._var_ = node;
     }
 
     public TSemicolon getSemicolon()
@@ -124,8 +124,8 @@ public final class AIntDeclarationAssignmentDeclaration extends PDeclaration
     public String toString()
     {
         return ""
-            + toString(this._int_)
-            + toString(this._assignment_)
+            + toString(this._str_)
+            + toString(this._var_)
             + toString(this._semicolon_);
     }
 
@@ -133,15 +133,15 @@ public final class AIntDeclarationAssignmentDeclaration extends PDeclaration
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._int_ == child)
+        if(this._str_ == child)
         {
-            this._int_ = null;
+            this._str_ = null;
             return;
         }
 
-        if(this._assignment_ == child)
+        if(this._var_ == child)
         {
-            this._assignment_ = null;
+            this._var_ = null;
             return;
         }
 
@@ -158,15 +158,15 @@ public final class AIntDeclarationAssignmentDeclaration extends PDeclaration
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._int_ == oldChild)
+        if(this._str_ == oldChild)
         {
-            setInt((TInt) newChild);
+            setStr((TStr) newChild);
             return;
         }
 
-        if(this._assignment_ == oldChild)
+        if(this._var_ == oldChild)
         {
-            setAssignment((PAssignment) newChild);
+            setVar((TVar) newChild);
             return;
         }
 

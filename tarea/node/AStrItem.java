@@ -5,16 +5,16 @@ package tarea.node;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AStrItem2 extends PItem2
+public final class AStrItem extends PItem
 {
     private TStringLiteral _stringLiteral_;
 
-    public AStrItem2()
+    public AStrItem()
     {
         // Constructor
     }
 
-    public AStrItem2(
+    public AStrItem(
         @SuppressWarnings("hiding") TStringLiteral _stringLiteral_)
     {
         // Constructor
@@ -25,14 +25,14 @@ public final class AStrItem2 extends PItem2
     @Override
     public Object clone()
     {
-        return new AStrItem2(
+        return new AStrItem(
             cloneNode(this._stringLiteral_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAStrItem2(this);
+        ((Analysis) sw).caseAStrItem(this);
     }
 
     public TStringLiteral getStringLiteral()

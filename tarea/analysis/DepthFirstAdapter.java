@@ -108,20 +108,20 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAFormatProgram(node);
     }
 
-    public void inAIntDeclarationDeclaration(AIntDeclarationDeclaration node)
+    public void inAIntDeclaration(AIntDeclaration node)
     {
         defaultIn(node);
     }
 
-    public void outAIntDeclarationDeclaration(AIntDeclarationDeclaration node)
+    public void outAIntDeclaration(AIntDeclaration node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAIntDeclarationDeclaration(AIntDeclarationDeclaration node)
+    public void caseAIntDeclaration(AIntDeclaration node)
     {
-        inAIntDeclarationDeclaration(node);
+        inAIntDeclaration(node);
         if(node.getInt() != null)
         {
             node.getInt().apply(this);
@@ -134,23 +134,23 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getSemicolon().apply(this);
         }
-        outAIntDeclarationDeclaration(node);
+        outAIntDeclaration(node);
     }
 
-    public void inAStrDeclarationDeclaration(AStrDeclarationDeclaration node)
+    public void inAStrDeclaration(AStrDeclaration node)
     {
         defaultIn(node);
     }
 
-    public void outAStrDeclarationDeclaration(AStrDeclarationDeclaration node)
+    public void outAStrDeclaration(AStrDeclaration node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAStrDeclarationDeclaration(AStrDeclarationDeclaration node)
+    public void caseAStrDeclaration(AStrDeclaration node)
     {
-        inAStrDeclarationDeclaration(node);
+        inAStrDeclaration(node);
         if(node.getStr() != null)
         {
             node.getStr().apply(this);
@@ -163,23 +163,23 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getSemicolon().apply(this);
         }
-        outAStrDeclarationDeclaration(node);
+        outAStrDeclaration(node);
     }
 
-    public void inADoubleDeclarationDeclaration(ADoubleDeclarationDeclaration node)
+    public void inADoubleDeclaration(ADoubleDeclaration node)
     {
         defaultIn(node);
     }
 
-    public void outADoubleDeclarationDeclaration(ADoubleDeclarationDeclaration node)
+    public void outADoubleDeclaration(ADoubleDeclaration node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseADoubleDeclarationDeclaration(ADoubleDeclarationDeclaration node)
+    public void caseADoubleDeclaration(ADoubleDeclaration node)
     {
-        inADoubleDeclarationDeclaration(node);
+        inADoubleDeclaration(node);
         if(node.getDouble() != null)
         {
             node.getDouble().apply(this);
@@ -192,23 +192,23 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getSemicolon().apply(this);
         }
-        outADoubleDeclarationDeclaration(node);
+        outADoubleDeclaration(node);
     }
 
-    public void inAIntDeclarationAssignmentDeclaration(AIntDeclarationAssignmentDeclaration node)
+    public void inAIntAssignmentDeclaration(AIntAssignmentDeclaration node)
     {
         defaultIn(node);
     }
 
-    public void outAIntDeclarationAssignmentDeclaration(AIntDeclarationAssignmentDeclaration node)
+    public void outAIntAssignmentDeclaration(AIntAssignmentDeclaration node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAIntDeclarationAssignmentDeclaration(AIntDeclarationAssignmentDeclaration node)
+    public void caseAIntAssignmentDeclaration(AIntAssignmentDeclaration node)
     {
-        inAIntDeclarationAssignmentDeclaration(node);
+        inAIntAssignmentDeclaration(node);
         if(node.getInt() != null)
         {
             node.getInt().apply(this);
@@ -221,23 +221,23 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getSemicolon().apply(this);
         }
-        outAIntDeclarationAssignmentDeclaration(node);
+        outAIntAssignmentDeclaration(node);
     }
 
-    public void inAStrDeclarationAssignmentDeclaration(AStrDeclarationAssignmentDeclaration node)
+    public void inAStrAssignmentDeclaration(AStrAssignmentDeclaration node)
     {
         defaultIn(node);
     }
 
-    public void outAStrDeclarationAssignmentDeclaration(AStrDeclarationAssignmentDeclaration node)
+    public void outAStrAssignmentDeclaration(AStrAssignmentDeclaration node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAStrDeclarationAssignmentDeclaration(AStrDeclarationAssignmentDeclaration node)
+    public void caseAStrAssignmentDeclaration(AStrAssignmentDeclaration node)
     {
-        inAStrDeclarationAssignmentDeclaration(node);
+        inAStrAssignmentDeclaration(node);
         if(node.getStr() != null)
         {
             node.getStr().apply(this);
@@ -250,23 +250,23 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getSemicolon().apply(this);
         }
-        outAStrDeclarationAssignmentDeclaration(node);
+        outAStrAssignmentDeclaration(node);
     }
 
-    public void inADoubleDeclarationAssignmentDeclaration(ADoubleDeclarationAssignmentDeclaration node)
+    public void inADoubleAssignmentDeclaration(ADoubleAssignmentDeclaration node)
     {
         defaultIn(node);
     }
 
-    public void outADoubleDeclarationAssignmentDeclaration(ADoubleDeclarationAssignmentDeclaration node)
+    public void outADoubleAssignmentDeclaration(ADoubleAssignmentDeclaration node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseADoubleDeclarationAssignmentDeclaration(ADoubleDeclarationAssignmentDeclaration node)
+    public void caseADoubleAssignmentDeclaration(ADoubleAssignmentDeclaration node)
     {
-        inADoubleDeclarationAssignmentDeclaration(node);
+        inADoubleAssignmentDeclaration(node);
         if(node.getDouble() != null)
         {
             node.getDouble().apply(this);
@@ -279,23 +279,23 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getSemicolon().apply(this);
         }
-        outADoubleDeclarationAssignmentDeclaration(node);
+        outADoubleAssignmentDeclaration(node);
     }
 
-    public void inAPrintVarLine(APrintVarLine node)
+    public void inAPrintExprLine(APrintExprLine node)
     {
         defaultIn(node);
     }
 
-    public void outAPrintVarLine(APrintVarLine node)
+    public void outAPrintExprLine(APrintExprLine node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAPrintVarLine(APrintVarLine node)
+    public void caseAPrintExprLine(APrintExprLine node)
     {
-        inAPrintVarLine(node);
+        inAPrintExprLine(node);
         if(node.getPrint() != null)
         {
             node.getPrint().apply(this);
@@ -304,9 +304,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getLPar().apply(this);
         }
-        if(node.getVar() != null)
+        if(node.getExpr() != null)
         {
-            node.getVar().apply(this);
+            node.getExpr().apply(this);
         }
         if(node.getRPar() != null)
         {
@@ -316,7 +316,7 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getSemicolon().apply(this);
         }
-        outAPrintVarLine(node);
+        outAPrintExprLine(node);
     }
 
     public void inAPrintStringLine(APrintStringLine node)
@@ -354,43 +354,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getSemicolon().apply(this);
         }
         outAPrintStringLine(node);
-    }
-
-    public void inAPrintNumberLine(APrintNumberLine node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAPrintNumberLine(APrintNumberLine node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAPrintNumberLine(APrintNumberLine node)
-    {
-        inAPrintNumberLine(node);
-        if(node.getPrint() != null)
-        {
-            node.getPrint().apply(this);
-        }
-        if(node.getLPar() != null)
-        {
-            node.getLPar().apply(this);
-        }
-        if(node.getNumber() != null)
-        {
-            node.getNumber().apply(this);
-        }
-        if(node.getRPar() != null)
-        {
-            node.getRPar().apply(this);
-        }
-        if(node.getSemicolon() != null)
-        {
-            node.getSemicolon().apply(this);
-        }
-        outAPrintNumberLine(node);
     }
 
     public void inAInputLine(AInputLine node)
@@ -753,17 +716,17 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAEqualsSecondCondition(AEqualsSecondCondition node)
     {
         inAEqualsSecondCondition(node);
-        if(node.getItem1() != null)
+        if(node.getVar() != null)
         {
-            node.getItem1().apply(this);
+            node.getVar().apply(this);
         }
         if(node.getEquals() != null)
         {
             node.getEquals().apply(this);
         }
-        if(node.getItem2() != null)
+        if(node.getItem() != null)
         {
-            node.getItem2().apply(this);
+            node.getItem().apply(this);
         }
         outAEqualsSecondCondition(node);
     }
@@ -782,17 +745,17 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseANotEqualsSecondCondition(ANotEqualsSecondCondition node)
     {
         inANotEqualsSecondCondition(node);
-        if(node.getItem1() != null)
+        if(node.getVar() != null)
         {
-            node.getItem1().apply(this);
+            node.getVar().apply(this);
         }
         if(node.getNotEquals() != null)
         {
             node.getNotEquals().apply(this);
         }
-        if(node.getItem2() != null)
+        if(node.getItem() != null)
         {
-            node.getItem2().apply(this);
+            node.getItem().apply(this);
         }
         outANotEqualsSecondCondition(node);
     }
@@ -811,17 +774,17 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAGreaterSecondCondition(AGreaterSecondCondition node)
     {
         inAGreaterSecondCondition(node);
-        if(node.getItem1() != null)
+        if(node.getVar() != null)
         {
-            node.getItem1().apply(this);
+            node.getVar().apply(this);
         }
         if(node.getGreater() != null)
         {
             node.getGreater().apply(this);
         }
-        if(node.getItem2() != null)
+        if(node.getItem() != null)
         {
-            node.getItem2().apply(this);
+            node.getItem().apply(this);
         }
         outAGreaterSecondCondition(node);
     }
@@ -840,17 +803,17 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAGreaterEqSecondCondition(AGreaterEqSecondCondition node)
     {
         inAGreaterEqSecondCondition(node);
-        if(node.getItem1() != null)
+        if(node.getVar() != null)
         {
-            node.getItem1().apply(this);
+            node.getVar().apply(this);
         }
         if(node.getGreaterEq() != null)
         {
             node.getGreaterEq().apply(this);
         }
-        if(node.getItem2() != null)
+        if(node.getItem() != null)
         {
-            node.getItem2().apply(this);
+            node.getItem().apply(this);
         }
         outAGreaterEqSecondCondition(node);
     }
@@ -869,17 +832,17 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseALessSecondCondition(ALessSecondCondition node)
     {
         inALessSecondCondition(node);
-        if(node.getItem1() != null)
+        if(node.getVar() != null)
         {
-            node.getItem1().apply(this);
+            node.getVar().apply(this);
         }
         if(node.getLess() != null)
         {
             node.getLess().apply(this);
         }
-        if(node.getItem2() != null)
+        if(node.getItem() != null)
         {
-            node.getItem2().apply(this);
+            node.getItem().apply(this);
         }
         outALessSecondCondition(node);
     }
@@ -898,17 +861,17 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseALessEqSecondCondition(ALessEqSecondCondition node)
     {
         inALessEqSecondCondition(node);
-        if(node.getItem1() != null)
+        if(node.getVar() != null)
         {
-            node.getItem1().apply(this);
+            node.getVar().apply(this);
         }
         if(node.getLessEq() != null)
         {
             node.getLessEq().apply(this);
         }
-        if(node.getItem2() != null)
+        if(node.getItem() != null)
         {
-            node.getItem2().apply(this);
+            node.getItem().apply(this);
         }
         outALessEqSecondCondition(node);
     }
@@ -942,130 +905,46 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAGroupedSecondCondition(node);
     }
 
-    public void inAVarItem1(AVarItem1 node)
+    public void inAExprItem(AExprItem node)
     {
         defaultIn(node);
     }
 
-    public void outAVarItem1(AVarItem1 node)
+    public void outAExprItem(AExprItem node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAVarItem1(AVarItem1 node)
+    public void caseAExprItem(AExprItem node)
     {
-        inAVarItem1(node);
-        if(node.getVar() != null)
+        inAExprItem(node);
+        if(node.getExpr() != null)
         {
-            node.getVar().apply(this);
+            node.getExpr().apply(this);
         }
-        outAVarItem1(node);
+        outAExprItem(node);
     }
 
-    public void inANumberItem1(ANumberItem1 node)
+    public void inAStrItem(AStrItem node)
     {
         defaultIn(node);
     }
 
-    public void outANumberItem1(ANumberItem1 node)
+    public void outAStrItem(AStrItem node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseANumberItem1(ANumberItem1 node)
+    public void caseAStrItem(AStrItem node)
     {
-        inANumberItem1(node);
-        if(node.getNumber() != null)
-        {
-            node.getNumber().apply(this);
-        }
-        outANumberItem1(node);
-    }
-
-    public void inAStrItem1(AStrItem1 node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAStrItem1(AStrItem1 node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAStrItem1(AStrItem1 node)
-    {
-        inAStrItem1(node);
+        inAStrItem(node);
         if(node.getStringLiteral() != null)
         {
             node.getStringLiteral().apply(this);
         }
-        outAStrItem1(node);
-    }
-
-    public void inAVarItem2(AVarItem2 node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAVarItem2(AVarItem2 node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAVarItem2(AVarItem2 node)
-    {
-        inAVarItem2(node);
-        if(node.getVar() != null)
-        {
-            node.getVar().apply(this);
-        }
-        outAVarItem2(node);
-    }
-
-    public void inANumberItem2(ANumberItem2 node)
-    {
-        defaultIn(node);
-    }
-
-    public void outANumberItem2(ANumberItem2 node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseANumberItem2(ANumberItem2 node)
-    {
-        inANumberItem2(node);
-        if(node.getNumber() != null)
-        {
-            node.getNumber().apply(this);
-        }
-        outANumberItem2(node);
-    }
-
-    public void inAStrItem2(AStrItem2 node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAStrItem2(AStrItem2 node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAStrItem2(AStrItem2 node)
-    {
-        inAStrItem2(node);
-        if(node.getStringLiteral() != null)
-        {
-            node.getStringLiteral().apply(this);
-        }
-        outAStrItem2(node);
+        outAStrItem(node);
     }
 
     public void inAStrAssignmentAssignment(AStrAssignmentAssignment node)

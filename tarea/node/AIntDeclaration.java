@@ -5,24 +5,24 @@ package tarea.node;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ADoubleDeclarationDeclaration extends PDeclaration
+public final class AIntDeclaration extends PDeclaration
 {
-    private TDouble _double_;
+    private TInt _int_;
     private TVar _var_;
     private TSemicolon _semicolon_;
 
-    public ADoubleDeclarationDeclaration()
+    public AIntDeclaration()
     {
         // Constructor
     }
 
-    public ADoubleDeclarationDeclaration(
-        @SuppressWarnings("hiding") TDouble _double_,
+    public AIntDeclaration(
+        @SuppressWarnings("hiding") TInt _int_,
         @SuppressWarnings("hiding") TVar _var_,
         @SuppressWarnings("hiding") TSemicolon _semicolon_)
     {
         // Constructor
-        setDouble(_double_);
+        setInt(_int_);
 
         setVar(_var_);
 
@@ -33,8 +33,8 @@ public final class ADoubleDeclarationDeclaration extends PDeclaration
     @Override
     public Object clone()
     {
-        return new ADoubleDeclarationDeclaration(
-            cloneNode(this._double_),
+        return new AIntDeclaration(
+            cloneNode(this._int_),
             cloneNode(this._var_),
             cloneNode(this._semicolon_));
     }
@@ -42,19 +42,19 @@ public final class ADoubleDeclarationDeclaration extends PDeclaration
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADoubleDeclarationDeclaration(this);
+        ((Analysis) sw).caseAIntDeclaration(this);
     }
 
-    public TDouble getDouble()
+    public TInt getInt()
     {
-        return this._double_;
+        return this._int_;
     }
 
-    public void setDouble(TDouble node)
+    public void setInt(TInt node)
     {
-        if(this._double_ != null)
+        if(this._int_ != null)
         {
-            this._double_.parent(null);
+            this._int_.parent(null);
         }
 
         if(node != null)
@@ -67,7 +67,7 @@ public final class ADoubleDeclarationDeclaration extends PDeclaration
             node.parent(this);
         }
 
-        this._double_ = node;
+        this._int_ = node;
     }
 
     public TVar getVar()
@@ -124,7 +124,7 @@ public final class ADoubleDeclarationDeclaration extends PDeclaration
     public String toString()
     {
         return ""
-            + toString(this._double_)
+            + toString(this._int_)
             + toString(this._var_)
             + toString(this._semicolon_);
     }
@@ -133,9 +133,9 @@ public final class ADoubleDeclarationDeclaration extends PDeclaration
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._double_ == child)
+        if(this._int_ == child)
         {
-            this._double_ = null;
+            this._int_ = null;
             return;
         }
 
@@ -158,9 +158,9 @@ public final class ADoubleDeclarationDeclaration extends PDeclaration
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._double_ == oldChild)
+        if(this._int_ == oldChild)
         {
-            setDouble((TDouble) newChild);
+            setInt((TInt) newChild);
             return;
         }
 

@@ -7,9 +7,9 @@ import tarea.analysis.*;
 @SuppressWarnings("nls")
 public final class ALessEqSecondCondition extends PSecondCondition
 {
-    private PItem1 _item1_;
+    private TVar _var_;
     private TLessEq _lessEq_;
-    private PItem2 _item2_;
+    private PItem _item_;
 
     public ALessEqSecondCondition()
     {
@@ -17,16 +17,16 @@ public final class ALessEqSecondCondition extends PSecondCondition
     }
 
     public ALessEqSecondCondition(
-        @SuppressWarnings("hiding") PItem1 _item1_,
+        @SuppressWarnings("hiding") TVar _var_,
         @SuppressWarnings("hiding") TLessEq _lessEq_,
-        @SuppressWarnings("hiding") PItem2 _item2_)
+        @SuppressWarnings("hiding") PItem _item_)
     {
         // Constructor
-        setItem1(_item1_);
+        setVar(_var_);
 
         setLessEq(_lessEq_);
 
-        setItem2(_item2_);
+        setItem(_item_);
 
     }
 
@@ -34,9 +34,9 @@ public final class ALessEqSecondCondition extends PSecondCondition
     public Object clone()
     {
         return new ALessEqSecondCondition(
-            cloneNode(this._item1_),
+            cloneNode(this._var_),
             cloneNode(this._lessEq_),
-            cloneNode(this._item2_));
+            cloneNode(this._item_));
     }
 
     @Override
@@ -45,16 +45,16 @@ public final class ALessEqSecondCondition extends PSecondCondition
         ((Analysis) sw).caseALessEqSecondCondition(this);
     }
 
-    public PItem1 getItem1()
+    public TVar getVar()
     {
-        return this._item1_;
+        return this._var_;
     }
 
-    public void setItem1(PItem1 node)
+    public void setVar(TVar node)
     {
-        if(this._item1_ != null)
+        if(this._var_ != null)
         {
-            this._item1_.parent(null);
+            this._var_.parent(null);
         }
 
         if(node != null)
@@ -67,7 +67,7 @@ public final class ALessEqSecondCondition extends PSecondCondition
             node.parent(this);
         }
 
-        this._item1_ = node;
+        this._var_ = node;
     }
 
     public TLessEq getLessEq()
@@ -95,16 +95,16 @@ public final class ALessEqSecondCondition extends PSecondCondition
         this._lessEq_ = node;
     }
 
-    public PItem2 getItem2()
+    public PItem getItem()
     {
-        return this._item2_;
+        return this._item_;
     }
 
-    public void setItem2(PItem2 node)
+    public void setItem(PItem node)
     {
-        if(this._item2_ != null)
+        if(this._item_ != null)
         {
-            this._item2_.parent(null);
+            this._item_.parent(null);
         }
 
         if(node != null)
@@ -117,25 +117,25 @@ public final class ALessEqSecondCondition extends PSecondCondition
             node.parent(this);
         }
 
-        this._item2_ = node;
+        this._item_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._item1_)
+            + toString(this._var_)
             + toString(this._lessEq_)
-            + toString(this._item2_);
+            + toString(this._item_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._item1_ == child)
+        if(this._var_ == child)
         {
-            this._item1_ = null;
+            this._var_ = null;
             return;
         }
 
@@ -145,9 +145,9 @@ public final class ALessEqSecondCondition extends PSecondCondition
             return;
         }
 
-        if(this._item2_ == child)
+        if(this._item_ == child)
         {
-            this._item2_ = null;
+            this._item_ = null;
             return;
         }
 
@@ -158,9 +158,9 @@ public final class ALessEqSecondCondition extends PSecondCondition
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._item1_ == oldChild)
+        if(this._var_ == oldChild)
         {
-            setItem1((PItem1) newChild);
+            setVar((TVar) newChild);
             return;
         }
 
@@ -170,9 +170,9 @@ public final class ALessEqSecondCondition extends PSecondCondition
             return;
         }
 
-        if(this._item2_ == oldChild)
+        if(this._item_ == oldChild)
         {
-            setItem2((PItem2) newChild);
+            setItem((PItem) newChild);
             return;
         }
 

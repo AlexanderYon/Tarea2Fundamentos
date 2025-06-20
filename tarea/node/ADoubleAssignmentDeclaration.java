@@ -5,18 +5,18 @@ package tarea.node;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ADoubleDeclarationAssignmentDeclaration extends PDeclaration
+public final class ADoubleAssignmentDeclaration extends PDeclaration
 {
     private TDouble _double_;
     private PAssignment _assignment_;
     private TSemicolon _semicolon_;
 
-    public ADoubleDeclarationAssignmentDeclaration()
+    public ADoubleAssignmentDeclaration()
     {
         // Constructor
     }
 
-    public ADoubleDeclarationAssignmentDeclaration(
+    public ADoubleAssignmentDeclaration(
         @SuppressWarnings("hiding") TDouble _double_,
         @SuppressWarnings("hiding") PAssignment _assignment_,
         @SuppressWarnings("hiding") TSemicolon _semicolon_)
@@ -33,7 +33,7 @@ public final class ADoubleDeclarationAssignmentDeclaration extends PDeclaration
     @Override
     public Object clone()
     {
-        return new ADoubleDeclarationAssignmentDeclaration(
+        return new ADoubleAssignmentDeclaration(
             cloneNode(this._double_),
             cloneNode(this._assignment_),
             cloneNode(this._semicolon_));
@@ -42,7 +42,7 @@ public final class ADoubleDeclarationAssignmentDeclaration extends PDeclaration
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADoubleDeclarationAssignmentDeclaration(this);
+        ((Analysis) sw).caseADoubleAssignmentDeclaration(this);
     }
 
     public TDouble getDouble()
