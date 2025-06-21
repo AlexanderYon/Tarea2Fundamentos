@@ -164,7 +164,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
             if (!(mapVar.get(varName) instanceof Number)){
                 throw new TypeException("Variable '" + varName + "' does not match a numeric type");
             }
-            result = mapVar.get(varName) == new ArithmeticInterpreter(mapVar).eval(((AExprItem) item).getExpr());
+            result = mapVar.get(varName) != new ArithmeticInterpreter(mapVar).eval(((AExprItem) item).getExpr());
     
         // Caso item es un string
         } else {

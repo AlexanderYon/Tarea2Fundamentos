@@ -1,23 +1,28 @@
 main() {
-  int x=5;
-  int y=2;
-  int i = 1;
-  string f="false";
-  int z = (x + y - (2 * 30 + (50 / 10)));
-  print(z);
+  double side1 = 1;
+  int side2 = 2;
+  int side3 = 3;
 
-  if ((z < 0) && (y == 2)){
-    print("Hola xd");
-  }
+  /* Ingresar lados del triángulo */
+  print("Ingrese lado 1: ");
+  input(side1);
+  print("Ingrese lado 2: ");
+  input(side2);
+  print("Ingrese lado 3: ");
+  input(side3);
   
-  while (i <= 5){
-    print("i = ");
-    println(i);
-    i = i + 1;
+  if (side1 == side2 && side2 == side3){
+    /*Todos los lados son iguales*/
+    println("Triángulo Equilátero!!");
+  } else {
+    if (side1 ==side2 || side1 == side3 || (side2 == side3)){
+        /*Hay dos lados iguales*/
+        println("Triángulo iscóceles");
+    } else {
+        if (side1 != side2 && side1 != side3 && side2 != side3){
+            /*No hay lados iguales*/
+            println("Triángulo escaleno");
+        }
+    }
   }
-
-  print("Ingresa el valor de x: ");
-  input(x);
-  print("El nuevo valor de x es: ");
-  println(x);
 }

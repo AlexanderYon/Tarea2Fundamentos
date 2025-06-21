@@ -192,6 +192,15 @@ public class Interpreter extends DepthFirstAdapter{
         }
     }
 
+    //
+    //
+    //
+    //
+    // URGNETE ARREGLAR ESTE!!!!!! <<< ===============================================================
+    //
+    //
+    //
+    //
     @Override
     public void caseAInputLine(AInputLine node) {
         String varName = node.getVar().getText();
@@ -199,8 +208,7 @@ public class Interpreter extends DepthFirstAdapter{
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
         Scanner sc = new Scanner(System.in);
-        String value = sc.nextLine();
-        sc.close();
+        String value = sc.nextLine().trim();
 
         try {
             if (value.matches("-?\\d+")){ // caso int
