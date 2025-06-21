@@ -5,16 +5,16 @@ package tarea.node;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TStr extends Token
+public final class TString extends Token
 {
-    public TStr()
+    public TString()
     {
-        super.setText("str");
+        super.setText("string");
     }
 
-    public TStr(int line, int pos)
+    public TString(int line, int pos)
     {
-        super.setText("str");
+        super.setText("string");
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,18 @@ public final class TStr extends Token
     @Override
     public Object clone()
     {
-      return new TStr(getLine(), getPos());
+      return new TString(getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTStr(this);
+        ((Analysis) sw).caseTString(this);
     }
 
     @Override
     public void setText(@SuppressWarnings("unused") String text)
     {
-        throw new RuntimeException("Cannot change TStr text.");
+        throw new RuntimeException("Cannot change TString text.");
     }
 }

@@ -1,1 +1,23 @@
-main(){}
+main() {
+  int x=5;
+  int y=2;
+  int i = 1;
+  string f="false";
+  int z = (x + y - (2 * 30 + (50 / 10)));
+  print(z);
+
+  if ((z < 0) && (y == 2)){
+    print("Hola xd");
+  }
+  
+  while (i <= 5){
+    print("i = ");
+    println(i);
+    i = i + 1;
+  }
+
+  print("Ingresa el valor de x: ");
+  input(x);
+  print("El nuevo valor de x es: ");
+  println(x);
+}

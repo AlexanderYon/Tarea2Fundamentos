@@ -8,6 +8,10 @@ import tarea.parser.Parser;
 public class Analizer {
     public static void main(String[] args) throws Exception{
         Parser parser = new Parser(new Lexer(new PushbackReader(new FileReader("Test.txt"), 1024)));
-        Start ast = parser.parse();        
+        Start ast = parser.parse();     
+        Interpreter interpreter = new Interpreter();
+        ast.apply(interpreter);
+        // System.out.println(ast);
+        // interpreter.printVariables();
     }
 }

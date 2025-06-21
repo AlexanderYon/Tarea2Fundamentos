@@ -93,7 +93,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAStrDeclaration(AStrDeclaration node)
+    public void caseAStringDeclaration(AStringDeclaration node)
     {
         defaultCase(node);
     }
@@ -111,7 +111,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAStrAssignmentDeclaration(AStrAssignmentDeclaration node)
+    public void caseAStringAssignmentDeclaration(AStringAssignmentDeclaration node)
     {
         defaultCase(node);
     }
@@ -130,6 +130,18 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseAPrintStringLine(APrintStringLine node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAPrintlnExprLine(APrintlnExprLine node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAPrintlnStringLine(APrintlnStringLine node)
     {
         defaultCase(node);
     }
@@ -243,13 +255,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAStrItem(AStrItem node)
+    public void caseAStringItem(AStringItem node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAStrAssignmentAssignment(AStrAssignmentAssignment node)
+    public void caseAStringAssignmentAssignment(AStringAssignmentAssignment node)
     {
         defaultCase(node);
     }
@@ -351,7 +363,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTStr(TStr node)
+    public void caseTString(TString node)
     {
         defaultCase(node);
     }

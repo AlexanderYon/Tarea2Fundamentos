@@ -15,13 +15,15 @@ public interface Analysis extends Switch
     void caseAMainProgram(AMainProgram node);
     void caseAFormatProgram(AFormatProgram node);
     void caseAIntDeclaration(AIntDeclaration node);
-    void caseAStrDeclaration(AStrDeclaration node);
+    void caseAStringDeclaration(AStringDeclaration node);
     void caseADoubleDeclaration(ADoubleDeclaration node);
     void caseAIntAssignmentDeclaration(AIntAssignmentDeclaration node);
-    void caseAStrAssignmentDeclaration(AStrAssignmentDeclaration node);
+    void caseAStringAssignmentDeclaration(AStringAssignmentDeclaration node);
     void caseADoubleAssignmentDeclaration(ADoubleAssignmentDeclaration node);
     void caseAPrintExprLine(APrintExprLine node);
     void caseAPrintStringLine(APrintStringLine node);
+    void caseAPrintlnExprLine(APrintlnExprLine node);
+    void caseAPrintlnStringLine(APrintlnStringLine node);
     void caseAInputLine(AInputLine node);
     void caseAFlowControlLine(AFlowControlLine node);
     void caseAAssignmentLine(AAssignmentLine node);
@@ -40,8 +42,8 @@ public interface Analysis extends Switch
     void caseALessEqSecondCondition(ALessEqSecondCondition node);
     void caseAGroupedSecondCondition(AGroupedSecondCondition node);
     void caseAExprItem(AExprItem node);
-    void caseAStrItem(AStrItem node);
-    void caseAStrAssignmentAssignment(AStrAssignmentAssignment node);
+    void caseAStringItem(AStringItem node);
+    void caseAStringAssignmentAssignment(AStringAssignmentAssignment node);
     void caseAExprAssignmentAssignment(AExprAssignmentAssignment node);
     void caseAFactorExpr(AFactorExpr node);
     void caseAPlusExpr(APlusExpr node);
@@ -59,7 +61,7 @@ public interface Analysis extends Switch
     void caseTStringLiteral(TStringLiteral node);
     void caseTInt(TInt node);
     void caseTDouble(TDouble node);
-    void caseTStr(TStr node);
+    void caseTString(TString node);
     void caseTPlus(TPlus node);
     void caseTMinus(TMinus node);
     void caseTMult(TMult node);

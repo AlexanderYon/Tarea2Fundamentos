@@ -14,7 +14,7 @@ Tokens
   string_literal = '"' non_quote* '"';
   int = 'int';
   double = 'double';
-  str = 'str';
+  string = 'string';
   plus = '+';
   minus = '-';
   mult = '*';
@@ -54,15 +54,17 @@ Productions
 
   declaration = 
     {int} int var semicolon | 
-    {str} str var semicolon | 
+    {string} string var semicolon | 
     {double} double var semicolon | 
     {int_assignment} int assignment semicolon | 
-    {str_assignment} str assignment semicolon | 
+    {string_assignment} string assignment semicolon | 
     {double_assignment} double assignment semicolon;
 
   line = 
     {print_expr} print l_par expr r_par semicolon | 
-    {print_string} print l_par string_literal r_par semicolon|
+    {print_string} print l_par string_literal r_par semicolon |
+    {println_expr} println l_par expr r_par semicolon |
+    {println_string} println l_par string_literal r_par semicolon |
     {input} input l_par var r_par semicolon |
     {flow_control} flow_control |
     {assignment} assignment semicolon;
@@ -80,7 +82,7 @@ Productions
     {or} condition or second_condition;
 
   second_condition = 
-    {equals} var equals item |
+    {equals} var double_equals item |
     {not_equals} var not_equals item |
     {greater} var greater item |
     {greater_eq} var greater_eq item |
@@ -90,10 +92,10 @@ Productions
 
   item = 
     {expr} expr |
-    {str} string_literal;
+    {string} string_literal;
 
   assignment = 
-    {str_assignment} var equals string_literal |
+    {string_assignment} var equals string_literal |
     {expr_assignment} var equals expr;
 
   expr = 

@@ -5,18 +5,18 @@ package tarea.node;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AStrAssignmentAssignment extends PAssignment
+public final class AStringAssignmentAssignment extends PAssignment
 {
     private TVar _var_;
     private TEquals _equals_;
     private TStringLiteral _stringLiteral_;
 
-    public AStrAssignmentAssignment()
+    public AStringAssignmentAssignment()
     {
         // Constructor
     }
 
-    public AStrAssignmentAssignment(
+    public AStringAssignmentAssignment(
         @SuppressWarnings("hiding") TVar _var_,
         @SuppressWarnings("hiding") TEquals _equals_,
         @SuppressWarnings("hiding") TStringLiteral _stringLiteral_)
@@ -33,7 +33,7 @@ public final class AStrAssignmentAssignment extends PAssignment
     @Override
     public Object clone()
     {
-        return new AStrAssignmentAssignment(
+        return new AStringAssignmentAssignment(
             cloneNode(this._var_),
             cloneNode(this._equals_),
             cloneNode(this._stringLiteral_));
@@ -42,7 +42,7 @@ public final class AStrAssignmentAssignment extends PAssignment
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAStrAssignmentAssignment(this);
+        ((Analysis) sw).caseAStringAssignmentAssignment(this);
     }
 
     public TVar getVar()

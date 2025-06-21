@@ -5,26 +5,26 @@ package tarea.node;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AStrAssignmentDeclaration extends PDeclaration
+public final class AStringDeclaration extends PDeclaration
 {
-    private TStr _str_;
-    private PAssignment _assignment_;
+    private TString _string_;
+    private TVar _var_;
     private TSemicolon _semicolon_;
 
-    public AStrAssignmentDeclaration()
+    public AStringDeclaration()
     {
         // Constructor
     }
 
-    public AStrAssignmentDeclaration(
-        @SuppressWarnings("hiding") TStr _str_,
-        @SuppressWarnings("hiding") PAssignment _assignment_,
+    public AStringDeclaration(
+        @SuppressWarnings("hiding") TString _string_,
+        @SuppressWarnings("hiding") TVar _var_,
         @SuppressWarnings("hiding") TSemicolon _semicolon_)
     {
         // Constructor
-        setStr(_str_);
+        setString(_string_);
 
-        setAssignment(_assignment_);
+        setVar(_var_);
 
         setSemicolon(_semicolon_);
 
@@ -33,28 +33,28 @@ public final class AStrAssignmentDeclaration extends PDeclaration
     @Override
     public Object clone()
     {
-        return new AStrAssignmentDeclaration(
-            cloneNode(this._str_),
-            cloneNode(this._assignment_),
+        return new AStringDeclaration(
+            cloneNode(this._string_),
+            cloneNode(this._var_),
             cloneNode(this._semicolon_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAStrAssignmentDeclaration(this);
+        ((Analysis) sw).caseAStringDeclaration(this);
     }
 
-    public TStr getStr()
+    public TString getString()
     {
-        return this._str_;
+        return this._string_;
     }
 
-    public void setStr(TStr node)
+    public void setString(TString node)
     {
-        if(this._str_ != null)
+        if(this._string_ != null)
         {
-            this._str_.parent(null);
+            this._string_.parent(null);
         }
 
         if(node != null)
@@ -67,19 +67,19 @@ public final class AStrAssignmentDeclaration extends PDeclaration
             node.parent(this);
         }
 
-        this._str_ = node;
+        this._string_ = node;
     }
 
-    public PAssignment getAssignment()
+    public TVar getVar()
     {
-        return this._assignment_;
+        return this._var_;
     }
 
-    public void setAssignment(PAssignment node)
+    public void setVar(TVar node)
     {
-        if(this._assignment_ != null)
+        if(this._var_ != null)
         {
-            this._assignment_.parent(null);
+            this._var_.parent(null);
         }
 
         if(node != null)
@@ -92,7 +92,7 @@ public final class AStrAssignmentDeclaration extends PDeclaration
             node.parent(this);
         }
 
-        this._assignment_ = node;
+        this._var_ = node;
     }
 
     public TSemicolon getSemicolon()
@@ -124,8 +124,8 @@ public final class AStrAssignmentDeclaration extends PDeclaration
     public String toString()
     {
         return ""
-            + toString(this._str_)
-            + toString(this._assignment_)
+            + toString(this._string_)
+            + toString(this._var_)
             + toString(this._semicolon_);
     }
 
@@ -133,15 +133,15 @@ public final class AStrAssignmentDeclaration extends PDeclaration
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._str_ == child)
+        if(this._string_ == child)
         {
-            this._str_ = null;
+            this._string_ = null;
             return;
         }
 
-        if(this._assignment_ == child)
+        if(this._var_ == child)
         {
-            this._assignment_ = null;
+            this._var_ = null;
             return;
         }
 
@@ -158,15 +158,15 @@ public final class AStrAssignmentDeclaration extends PDeclaration
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._str_ == oldChild)
+        if(this._string_ == oldChild)
         {
-            setStr((TStr) newChild);
+            setString((TString) newChild);
             return;
         }
 
-        if(this._assignment_ == oldChild)
+        if(this._var_ == oldChild)
         {
-            setAssignment((PAssignment) newChild);
+            setVar((TVar) newChild);
             return;
         }
 

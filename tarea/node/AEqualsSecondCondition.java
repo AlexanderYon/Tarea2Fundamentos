@@ -8,7 +8,7 @@ import tarea.analysis.*;
 public final class AEqualsSecondCondition extends PSecondCondition
 {
     private TVar _var_;
-    private TEquals _equals_;
+    private TDoubleEquals _doubleEquals_;
     private PItem _item_;
 
     public AEqualsSecondCondition()
@@ -18,13 +18,13 @@ public final class AEqualsSecondCondition extends PSecondCondition
 
     public AEqualsSecondCondition(
         @SuppressWarnings("hiding") TVar _var_,
-        @SuppressWarnings("hiding") TEquals _equals_,
+        @SuppressWarnings("hiding") TDoubleEquals _doubleEquals_,
         @SuppressWarnings("hiding") PItem _item_)
     {
         // Constructor
         setVar(_var_);
 
-        setEquals(_equals_);
+        setDoubleEquals(_doubleEquals_);
 
         setItem(_item_);
 
@@ -35,7 +35,7 @@ public final class AEqualsSecondCondition extends PSecondCondition
     {
         return new AEqualsSecondCondition(
             cloneNode(this._var_),
-            cloneNode(this._equals_),
+            cloneNode(this._doubleEquals_),
             cloneNode(this._item_));
     }
 
@@ -70,16 +70,16 @@ public final class AEqualsSecondCondition extends PSecondCondition
         this._var_ = node;
     }
 
-    public TEquals getEquals()
+    public TDoubleEquals getDoubleEquals()
     {
-        return this._equals_;
+        return this._doubleEquals_;
     }
 
-    public void setEquals(TEquals node)
+    public void setDoubleEquals(TDoubleEquals node)
     {
-        if(this._equals_ != null)
+        if(this._doubleEquals_ != null)
         {
-            this._equals_.parent(null);
+            this._doubleEquals_.parent(null);
         }
 
         if(node != null)
@@ -92,7 +92,7 @@ public final class AEqualsSecondCondition extends PSecondCondition
             node.parent(this);
         }
 
-        this._equals_ = node;
+        this._doubleEquals_ = node;
     }
 
     public PItem getItem()
@@ -125,7 +125,7 @@ public final class AEqualsSecondCondition extends PSecondCondition
     {
         return ""
             + toString(this._var_)
-            + toString(this._equals_)
+            + toString(this._doubleEquals_)
             + toString(this._item_);
     }
 
@@ -139,9 +139,9 @@ public final class AEqualsSecondCondition extends PSecondCondition
             return;
         }
 
-        if(this._equals_ == child)
+        if(this._doubleEquals_ == child)
         {
-            this._equals_ = null;
+            this._doubleEquals_ = null;
             return;
         }
 
@@ -164,9 +164,9 @@ public final class AEqualsSecondCondition extends PSecondCondition
             return;
         }
 
-        if(this._equals_ == oldChild)
+        if(this._doubleEquals_ == oldChild)
         {
-            setEquals((TEquals) newChild);
+            setDoubleEquals((TDoubleEquals) newChild);
             return;
         }
 
