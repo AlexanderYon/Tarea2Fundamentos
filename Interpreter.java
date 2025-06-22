@@ -79,7 +79,7 @@ public class Interpreter extends DepthFirstAdapter{
         if (init instanceof AStringInitialization){
             AStringInitialization parsedAssignment = (AStringInitialization) init;
             String varValue = parsedAssignment.getStringLiteral().getText();
-            throw new TypeException("Value '" + varValue + "' doesn't match with type 'double'");
+            throw new TypeException("Value '" + varValue + "' does not match type 'double'");
         }
         AExprInitialization parsedAssignment = (AExprInitialization) init;
         String varName = parsedAssignment.getVar().getText();
@@ -95,12 +95,12 @@ public class Interpreter extends DepthFirstAdapter{
         /*
         Verificar si el tipo de variable concuerda con el valor asignado 
         Solo existen dos tipos de asignaciones; string_literal y expr.
-        NO se puede asignar un valor string_literal a una variable declarada como double.
+        NO se puede asignar un valor string_literal a una variable declarada como int.
         */
         if (init instanceof AStringInitialization){
             AStringInitialization parsedAssignment = (AStringInitialization) init;
             String varValue = parsedAssignment.getStringLiteral().getText();
-            throw new TypeException("Value '" + varValue + "' doesn't match with type 'double'");
+            throw new TypeException("Value '" + varValue + "' does not match type 'int'");
         }
         AExprInitialization parsedAssignment = (AExprInitialization) init;
         String varName = parsedAssignment.getVar().getText();
@@ -116,7 +116,7 @@ public class Interpreter extends DepthFirstAdapter{
         /*
         Verificar si el tipo de variable concuerda con el valor asignado 
         Solo existen dos tipos de asignaciones; string_literal y expr.
-        NO se puede asignar un valor string_literal a una variable declarada como double.
+        NO se puede asignar un valor numérico (int o double) a una variable declarada como string.
         */
         if (init instanceof AExprInitialization){
             // AExprAssignmentAssignment parsedAssignment = (AExprAssignmentAssignment) assignment;
@@ -150,7 +150,7 @@ public class Interpreter extends DepthFirstAdapter{
 
     @Override
     public void caseAPrintExprStatement(APrintExprStatement node) {
-        // Intentar resolver la expresión. Sino, es porque se desea imprimir un string
+        // Intentar resolver la expresión. Si no resulta, es porque se desea imprimir un string
         ArithmeticInterpreter ai = new ArithmeticInterpreter(this.mapVar);
         try{
             System.out.print(ai.eval(node.getExpr()));
@@ -161,7 +161,7 @@ public class Interpreter extends DepthFirstAdapter{
 
     @Override
     public void caseAPrintlnExprStatement(APrintlnExprStatement node) {
-        // Intentar resolver la expresión. Sino, es porque se desea imprimir un string
+        // Intentar resolver la expresión. Si no resulta, es porque se desea imprimir un string
         ArithmeticInterpreter ai = new ArithmeticInterpreter(this.mapVar);
         try {
             System.out.println(ai.eval(node.getExpr()));
@@ -236,51 +236,6 @@ public class Interpreter extends DepthFirstAdapter{
         }
     }
 
-
-    //
-    //
-    //
-    //
-    // URGNETE ARREGLAR ESTE!!!!!! <<< ===============================================================
-    //
-    //
-    //
-    //
-    // @Override
-    // public void caseAInputStatement(AInputStatement node) {
-    //     String varName = node.getVar().getText();
-    //     if (!(mapVar.containsKey(varName))){
-    //         throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
-    //     }
-    //     String value = sc.nextLine().trim();
-    //     try {
-    //         if (value.matches("-?\\d+")){ // caso int
-    //             int parsedValue = Integer.parseInt(value);
-    //             if (mapVar.get(varName) instanceof Integer) {
-    //                 mapVar.put(varName, parsedValue);
-    //             } else if (mapVar.get(varName) instanceof Double) {
-    //                 mapVar.put(varName, (double) parsedValue);
-    //             } else {
-    //                 throw new TypeException("Cannot set a 'int' value to a 'string' variable");
-    //             }
-    //         } else {
-    //             double parsedValue = Double.parseDouble(value);
-    //             if (mapVar.get(varName) instanceof Double) {
-    //                 mapVar.put(varName, parsedValue);
-    //             } else if (mapVar.get(varName) instanceof Integer) {
-    //                 throw new TypeException("Cannot set a 'double' value to an 'int' variable");
-    //             } else {
-    //                 throw new TypeException("Cannot set a 'double' value to a 'string' variable");
-    //             }
-    //         }
-    //     } catch (NumberFormatException e) {
-    //         if (!(mapVar.get(varName) instanceof String)) {
-    //             throw new TypeException("Cannot set a 'string' value to a numeric variable");
-    //         }
-    //         mapVar.put(varName, value);
-    //     }
-    // }
-
     @Override
     public void caseAInputStatement(AInputStatement node) {
         String varName = node.getVar().getText();
@@ -294,7 +249,6 @@ public class Interpreter extends DepthFirstAdapter{
         
         // verificar el tipo de variable para saber qué tipo de entrada se espera recibir
         boolean variableEsInt       = currentValue instanceof Integer;
-        boolean variableEsDouble    = currentValue instanceof Double;
         boolean variableEsString    = currentValue instanceof String;
 
         if (variableEsString) {
@@ -324,7 +278,7 @@ public class Interpreter extends DepthFirstAdapter{
             ast.apply(interpreter);
             mapVar.put(varName, interpreter.stack.pop());
         } catch (Exception e) {
-            throw new TypeException("The expression '" + entrada + "'' does not match an arithmetic expression. Please check the syntaxis");
+            throw new TypeException("The expression '" + entrada + "' does not match an arithmetic expression. Please check the syntaxis");
         }
     }
 
