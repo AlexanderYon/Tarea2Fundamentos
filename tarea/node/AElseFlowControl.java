@@ -6,38 +6,26 @@ import java.util.*;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AWhileFlowControl extends PFlowControl
+public final class AElseFlowControl extends PElseFlowControl
 {
-    private TWhile _while_;
-    private TLPar _lPar_;
-    private PCondition _condition_;
-    private TRPar _rPar_;
+    private TElse _else_;
     private TLBrace _lBrace_;
     private final LinkedList<PStatement> _statement_ = new LinkedList<PStatement>();
     private TRBrace _rBrace_;
 
-    public AWhileFlowControl()
+    public AElseFlowControl()
     {
         // Constructor
     }
 
-    public AWhileFlowControl(
-        @SuppressWarnings("hiding") TWhile _while_,
-        @SuppressWarnings("hiding") TLPar _lPar_,
-        @SuppressWarnings("hiding") PCondition _condition_,
-        @SuppressWarnings("hiding") TRPar _rPar_,
+    public AElseFlowControl(
+        @SuppressWarnings("hiding") TElse _else_,
         @SuppressWarnings("hiding") TLBrace _lBrace_,
         @SuppressWarnings("hiding") List<?> _statement_,
         @SuppressWarnings("hiding") TRBrace _rBrace_)
     {
         // Constructor
-        setWhile(_while_);
-
-        setLPar(_lPar_);
-
-        setCondition(_condition_);
-
-        setRPar(_rPar_);
+        setElse(_else_);
 
         setLBrace(_lBrace_);
 
@@ -50,11 +38,8 @@ public final class AWhileFlowControl extends PFlowControl
     @Override
     public Object clone()
     {
-        return new AWhileFlowControl(
-            cloneNode(this._while_),
-            cloneNode(this._lPar_),
-            cloneNode(this._condition_),
-            cloneNode(this._rPar_),
+        return new AElseFlowControl(
+            cloneNode(this._else_),
             cloneNode(this._lBrace_),
             cloneList(this._statement_),
             cloneNode(this._rBrace_));
@@ -63,19 +48,19 @@ public final class AWhileFlowControl extends PFlowControl
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAWhileFlowControl(this);
+        ((Analysis) sw).caseAElseFlowControl(this);
     }
 
-    public TWhile getWhile()
+    public TElse getElse()
     {
-        return this._while_;
+        return this._else_;
     }
 
-    public void setWhile(TWhile node)
+    public void setElse(TElse node)
     {
-        if(this._while_ != null)
+        if(this._else_ != null)
         {
-            this._while_.parent(null);
+            this._else_.parent(null);
         }
 
         if(node != null)
@@ -88,82 +73,7 @@ public final class AWhileFlowControl extends PFlowControl
             node.parent(this);
         }
 
-        this._while_ = node;
-    }
-
-    public TLPar getLPar()
-    {
-        return this._lPar_;
-    }
-
-    public void setLPar(TLPar node)
-    {
-        if(this._lPar_ != null)
-        {
-            this._lPar_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._lPar_ = node;
-    }
-
-    public PCondition getCondition()
-    {
-        return this._condition_;
-    }
-
-    public void setCondition(PCondition node)
-    {
-        if(this._condition_ != null)
-        {
-            this._condition_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._condition_ = node;
-    }
-
-    public TRPar getRPar()
-    {
-        return this._rPar_;
-    }
-
-    public void setRPar(TRPar node)
-    {
-        if(this._rPar_ != null)
-        {
-            this._rPar_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._rPar_ = node;
+        this._else_ = node;
     }
 
     public TLBrace getLBrace()
@@ -246,10 +156,7 @@ public final class AWhileFlowControl extends PFlowControl
     public String toString()
     {
         return ""
-            + toString(this._while_)
-            + toString(this._lPar_)
-            + toString(this._condition_)
-            + toString(this._rPar_)
+            + toString(this._else_)
             + toString(this._lBrace_)
             + toString(this._statement_)
             + toString(this._rBrace_);
@@ -259,27 +166,9 @@ public final class AWhileFlowControl extends PFlowControl
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._while_ == child)
+        if(this._else_ == child)
         {
-            this._while_ = null;
-            return;
-        }
-
-        if(this._lPar_ == child)
-        {
-            this._lPar_ = null;
-            return;
-        }
-
-        if(this._condition_ == child)
-        {
-            this._condition_ = null;
-            return;
-        }
-
-        if(this._rPar_ == child)
-        {
-            this._rPar_ = null;
+            this._else_ = null;
             return;
         }
 
@@ -307,27 +196,9 @@ public final class AWhileFlowControl extends PFlowControl
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._while_ == oldChild)
+        if(this._else_ == oldChild)
         {
-            setWhile((TWhile) newChild);
-            return;
-        }
-
-        if(this._lPar_ == oldChild)
-        {
-            setLPar((TLPar) newChild);
-            return;
-        }
-
-        if(this._condition_ == oldChild)
-        {
-            setCondition((PCondition) newChild);
-            return;
-        }
-
-        if(this._rPar_ == oldChild)
-        {
-            setRPar((TRPar) newChild);
+            setElse((TElse) newChild);
             return;
         }
 

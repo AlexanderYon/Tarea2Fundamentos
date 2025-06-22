@@ -1,32 +1,44 @@
+import java.io.InputStreamReader;
+import java.io.PushbackReader;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import exceptions.IllegalOperation;
 import exceptions.TypeException;
 import exceptions.VariableAlreadyDeclared;
 import exceptions.VariableNotDeclared;
 import tarea.analysis.DepthFirstAdapter;
-import tarea.node.AAssignmentLine;
-import tarea.node.ADoubleAssignmentDeclaration;
+import tarea.lexer.Lexer;
+import tarea.node.AInitializationStatement;
+import tarea.node.ADoubleInitializationDeclaration;
+import tarea.node.ADecreaseVarStatement;
 import tarea.node.ADoubleDeclaration;
-import tarea.node.AElseStatement;
-import tarea.node.AExprAssignmentAssignment;
+import tarea.node.AElseFlowControl;
+import tarea.node.AExprInitialization;
+import tarea.node.AExprInitialization;
 import tarea.node.AIfElseFlowControl;
 import tarea.node.AIfFlowControl;
-import tarea.node.AInputLine;
-import tarea.node.AIntAssignmentDeclaration;
+import tarea.node.AIncreaseVarStatement;
+import tarea.node.AInputStatement;
+import tarea.node.AIntInitializationDeclaration;
 import tarea.node.AIntDeclaration;
-import tarea.node.APrintExprLine;
-import tarea.node.APrintStringLine;
-import tarea.node.APrintlnExprLine;
-import tarea.node.APrintlnStringLine;
-import tarea.node.AStringAssignmentAssignment;
-import tarea.node.AStringAssignmentDeclaration;
+import tarea.node.APrintExprStatement;
+import tarea.node.APrintStringStatement;
+import tarea.node.APrintlnExprStatement;
+import tarea.node.APrintlnStringStatement;
+import tarea.node.AStringInitialization;
+import tarea.node.AStringInitializationDeclaration;
 import tarea.node.AStringDeclaration;
 import tarea.node.AWhileFlowControl;
-import tarea.node.PAssignment;
+import tarea.node.PInitialization;
+import tarea.node.PProgram;
+import tarea.node.Start;
+import tarea.parser.Parser;
 
 public class Interpreter extends DepthFirstAdapter{
     private final HashMap<String, Object> mapVar = new HashMap<>();
+    private final Scanner sc = new Scanner(System.in);
 
     @Override
     public void caseADoubleDeclaration(ADoubleDeclaration node) {
@@ -57,19 +69,19 @@ public class Interpreter extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseADoubleAssignmentDeclaration(ADoubleAssignmentDeclaration node) {
-        PAssignment assignment = node.getAssignment();
+    public void caseADoubleInitializationDeclaration(ADoubleInitializationDeclaration node) {
+        PInitialization init = node.getInitialization();
         /*
         Verificar si el tipo de variable concuerda con el valor asignado 
         Solo existen dos tipos de asignaciones; string_literal y expr.
         NO se puede asignar un valor string_literal a una variable declarada como double.
         */
-        if (assignment instanceof AStringAssignmentAssignment){
-            AStringAssignmentAssignment parsedAssignment = (AStringAssignmentAssignment) assignment;
+        if (init instanceof AStringInitialization){
+            AStringInitialization parsedAssignment = (AStringInitialization) init;
             String varValue = parsedAssignment.getStringLiteral().getText();
             throw new TypeException("Value '" + varValue + "' doesn't match with type 'double'");
         }
-        AExprAssignmentAssignment parsedAssignment = (AExprAssignmentAssignment) assignment;
+        AExprInitialization parsedAssignment = (AExprInitialization) init;
         String varName = parsedAssignment.getVar().getText();
         if (mapVar.containsKey(varName)){
             throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
@@ -78,19 +90,19 @@ public class Interpreter extends DepthFirstAdapter{
     }
     
     @Override
-    public void caseAIntAssignmentDeclaration(AIntAssignmentDeclaration node) {
-        PAssignment assignment = node.getAssignment();
+    public void caseAIntInitializationDeclaration(AIntInitializationDeclaration node) {
+        PInitialization init = node.getInitialization();
         /*
         Verificar si el tipo de variable concuerda con el valor asignado 
         Solo existen dos tipos de asignaciones; string_literal y expr.
         NO se puede asignar un valor string_literal a una variable declarada como double.
         */
-        if (assignment instanceof AStringAssignmentAssignment){
-            AStringAssignmentAssignment parsedAssignment = (AStringAssignmentAssignment) assignment;
+        if (init instanceof AStringInitialization){
+            AStringInitialization parsedAssignment = (AStringInitialization) init;
             String varValue = parsedAssignment.getStringLiteral().getText();
             throw new TypeException("Value '" + varValue + "' doesn't match with type 'double'");
         }
-        AExprAssignmentAssignment parsedAssignment = (AExprAssignmentAssignment) assignment;
+        AExprInitialization parsedAssignment = (AExprInitialization) init;
         String varName = parsedAssignment.getVar().getText();
         if (mapVar.containsKey(varName)){
             throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
@@ -99,19 +111,19 @@ public class Interpreter extends DepthFirstAdapter{
     }
     
     @Override
-    public void caseAStringAssignmentDeclaration(AStringAssignmentDeclaration node) {
-        PAssignment assignment = node.getAssignment();
+    public void caseAStringInitializationDeclaration(AStringInitializationDeclaration node) {
+        PInitialization init = node.getInitialization();
         /*
         Verificar si el tipo de variable concuerda con el valor asignado 
         Solo existen dos tipos de asignaciones; string_literal y expr.
         NO se puede asignar un valor string_literal a una variable declarada como double.
         */
-        if (assignment instanceof AExprAssignmentAssignment){
+        if (init instanceof AExprInitialization){
             // AExprAssignmentAssignment parsedAssignment = (AExprAssignmentAssignment) assignment;
             // String varValue = parsedAssignment.getExpr();
             throw new TypeException("Cannot set a numeric value to a string variable");
         }
-        AStringAssignmentAssignment parsedAssignment = (AStringAssignmentAssignment) assignment;
+        AStringInitialization parsedAssignment = (AStringInitialization) init;
         String varName = parsedAssignment.getVar().getText();
         if (mapVar.containsKey(varName)){
             throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
@@ -120,16 +132,16 @@ public class Interpreter extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseAAssignmentLine(AAssignmentLine node) {
-        PAssignment assignment = node.getAssignment();
+    public void caseAInitializationStatement(AInitializationStatement node) {
+        PInitialization init = node.getInitialization();
         String varName;
         Object varValue;
-        if (assignment instanceof AExprAssignmentAssignment){
-            AExprAssignmentAssignment parsedAssignment = (AExprAssignmentAssignment) assignment;
+        if (init instanceof AExprInitialization){
+            AExprInitialization parsedAssignment = (AExprInitialization) init;
             varName = parsedAssignment.getVar().getText();
             varValue = new ArithmeticInterpreter(mapVar).eval(parsedAssignment.getExpr());
         }else{
-            AStringAssignmentAssignment parsedAssignment = (AStringAssignmentAssignment) assignment;
+            AStringInitialization parsedAssignment = (AStringInitialization) init;
             varName = parsedAssignment.getVar().getText();
             varValue = parsedAssignment.getStringLiteral().getText();
         }
@@ -137,7 +149,7 @@ public class Interpreter extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseAPrintExprLine(APrintExprLine node) {
+    public void caseAPrintExprStatement(APrintExprStatement node) {
         // Intentar resolver la expresión. Sino, es porque se desea imprimir un string
         ArithmeticInterpreter ai = new ArithmeticInterpreter(this.mapVar);
         try{
@@ -148,7 +160,7 @@ public class Interpreter extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseAPrintlnExprLine(APrintlnExprLine node) {
+    public void caseAPrintlnExprStatement(APrintlnExprStatement node) {
         // Intentar resolver la expresión. Sino, es porque se desea imprimir un string
         ArithmeticInterpreter ai = new ArithmeticInterpreter(this.mapVar);
         try {
@@ -159,38 +171,71 @@ public class Interpreter extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseAPrintStringLine(APrintStringLine node) {
+    public void caseAPrintStringStatement(APrintStringStatement node) {
         System.out.print(node.getStringLiteral().getText().substring(1, node.getStringLiteral().getText().length() - 1));
     }
 
 
     @Override
-    public void caseAPrintlnStringLine(APrintlnStringLine node) {
+    public void caseAPrintlnStringStatement(APrintlnStringStatement node) {
         System.out.println(node.getStringLiteral().getText().substring(1, node.getStringLiteral().getText().length() - 1));
     }
 
     @Override
     public void caseAIfElseFlowControl(AIfElseFlowControl node) {
         if (new BooleanInterpreter(mapVar).eval(node.getCondition())){
-            node.getLine().forEach(line -> line.apply(this));
+            node.getStatement().forEach(line -> line.apply(this));
         }else{
-            ((AElseStatement) node.getElseStatement()).getLine().forEach(line -> line.apply(this));
+            ((AElseFlowControl) node.getElseFlowControl()).getStatement().forEach(line -> line.apply(this));
         }
     }
 
     @Override
     public void caseAIfFlowControl(AIfFlowControl node) {
         if (new BooleanInterpreter(mapVar).eval(node.getCondition())){
-            node.getLine().forEach(line -> line.apply(this));
+            node.getStatement().forEach(line -> line.apply(this));
         }
     }
 
     @Override
     public void caseAWhileFlowControl(AWhileFlowControl node) {
         while (new BooleanInterpreter(mapVar).eval(node.getCondition())){
-            node.getLine().forEach(line -> line.apply(this));
+            node.getStatement().forEach(line -> line.apply(this));
         }
     }
+
+    @Override
+    public void caseAIncreaseVarStatement(AIncreaseVarStatement node) {
+        String varName = node.getVar().getText();
+        if (!(mapVar.containsKey(varName))){
+            throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
+        }
+        if (!(mapVar.get(varName) instanceof Number)) {
+            throw new IllegalOperation("The operator '++' is undefined for type 'string'");
+        }
+        if (mapVar.get(varName) instanceof Integer){
+            mapVar.put(varName, ((Integer) mapVar.get(varName)) + 1);
+        }else{
+            mapVar.put(varName, ((Double) mapVar.get(varName)) + 1);
+        }
+    }
+
+    @Override
+    public void caseADecreaseVarStatement(ADecreaseVarStatement node) {
+        String varName = node.getVar().getText();
+        if (!(mapVar.containsKey(varName))){
+            throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
+        }
+        if (!(mapVar.get(varName) instanceof Number)) {
+            throw new IllegalOperation("The operator '++' is undefined for type 'string'");
+        }
+        if (mapVar.get(varName) instanceof Integer){
+            mapVar.put(varName, ((Integer) mapVar.get(varName)) - 1);
+        }else{
+            mapVar.put(varName, ((Double) mapVar.get(varName)) - 1);
+        }
+    }
+
 
     //
     //
@@ -201,40 +246,85 @@ public class Interpreter extends DepthFirstAdapter{
     //
     //
     //
+    // @Override
+    // public void caseAInputStatement(AInputStatement node) {
+    //     String varName = node.getVar().getText();
+    //     if (!(mapVar.containsKey(varName))){
+    //         throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
+    //     }
+    //     String value = sc.nextLine().trim();
+    //     try {
+    //         if (value.matches("-?\\d+")){ // caso int
+    //             int parsedValue = Integer.parseInt(value);
+    //             if (mapVar.get(varName) instanceof Integer) {
+    //                 mapVar.put(varName, parsedValue);
+    //             } else if (mapVar.get(varName) instanceof Double) {
+    //                 mapVar.put(varName, (double) parsedValue);
+    //             } else {
+    //                 throw new TypeException("Cannot set a 'int' value to a 'string' variable");
+    //             }
+    //         } else {
+    //             double parsedValue = Double.parseDouble(value);
+    //             if (mapVar.get(varName) instanceof Double) {
+    //                 mapVar.put(varName, parsedValue);
+    //             } else if (mapVar.get(varName) instanceof Integer) {
+    //                 throw new TypeException("Cannot set a 'double' value to an 'int' variable");
+    //             } else {
+    //                 throw new TypeException("Cannot set a 'double' value to a 'string' variable");
+    //             }
+    //         }
+    //     } catch (NumberFormatException e) {
+    //         if (!(mapVar.get(varName) instanceof String)) {
+    //             throw new TypeException("Cannot set a 'string' value to a numeric variable");
+    //         }
+    //         mapVar.put(varName, value);
+    //     }
+    // }
+
     @Override
-    public void caseAInputLine(AInputLine node) {
+    public void caseAInputStatement(AInputStatement node) {
         String varName = node.getVar().getText();
-        if (!(mapVar.containsKey(varName))){
+
+        // Verificar que la variable existe
+        if (!(mapVar.containsKey(varName))) {
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
-        Scanner sc = new Scanner(System.in);
-        String value = sc.nextLine().trim();
+        
+        Object currentValue = mapVar.get(varName);
+        
+        // verificar el tipo de variable para saber qué tipo de entrada se espera recibir
+        boolean variableEsInt       = currentValue instanceof Integer;
+        boolean variableEsDouble    = currentValue instanceof Double;
+        boolean variableEsString    = currentValue instanceof String;
+
+        if (variableEsString) {
+            String s = sc.nextLine().trim();
+            if (!s.startsWith("\"") && !s.endsWith("\"")) {
+                s = "\"" + s + "\""; // lo envolvemos como string_literal válido
+            }
+            mapVar.put(varName, s);
+            return;
+        }
+
+        String entrada = sc.nextLine().trim();
 
         try {
-            if (value.matches("-?\\d+")){ // caso int
-                int parsedValue = Integer.parseInt(value);
-                if (mapVar.get(varName) instanceof Integer) {
-                    mapVar.put(varName, parsedValue);
-                } else if (mapVar.get(varName) instanceof Double) {
-                    mapVar.put(varName, (double) parsedValue);
-                } else {
-                    throw new TypeException("Cannot set a 'int' value to a 'string' variable");
-                }
-            } else {
-                double parsedValue = Double.parseDouble(value);
-                if (mapVar.get(varName) instanceof Double) {
-                    mapVar.put(varName, parsedValue);
-                } else if (mapVar.get(varName) instanceof Integer) {
+            String programa;
+            if (variableEsInt){
+                if (entrada.matches("^-?\\d+\\.\\d+$")){ // la entrada es un double
                     throw new TypeException("Cannot set a 'double' value to an 'int' variable");
-                } else {
-                    throw new TypeException("Cannot set a 'double' value to a 'string' variable");
                 }
+                programa = "main(){int var = " + entrada + ";}"; 
+            } else {
+                programa = "main(){double var = " + entrada + ";}";
             }
-        } catch (NumberFormatException e) {
-            if (!(mapVar.get(varName) instanceof String)) {
-                throw new TypeException("Cannot set a 'string' value to a numeric variable");
-            }
-            mapVar.put(varName, value);
+            Parser parser = new Parser(new Lexer(new PushbackReader(new StringReader(programa), 1024)));
+            Start ast = parser.parse();
+            ArithmeticInterpreter interpreter = new ArithmeticInterpreter(mapVar);
+            ast.apply(interpreter);
+            mapVar.put(varName, interpreter.stack.pop());
+        } catch (Exception e) {
+            throw new TypeException("The expression '" + entrada + "'' does not match an arithmetic expression. Please check the syntaxis");
         }
     }
 

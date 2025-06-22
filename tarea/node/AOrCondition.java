@@ -9,7 +9,7 @@ public final class AOrCondition extends PCondition
 {
     private PCondition _condition_;
     private TOr _or_;
-    private PSecondCondition _secondCondition_;
+    private POther _other_;
 
     public AOrCondition()
     {
@@ -19,14 +19,14 @@ public final class AOrCondition extends PCondition
     public AOrCondition(
         @SuppressWarnings("hiding") PCondition _condition_,
         @SuppressWarnings("hiding") TOr _or_,
-        @SuppressWarnings("hiding") PSecondCondition _secondCondition_)
+        @SuppressWarnings("hiding") POther _other_)
     {
         // Constructor
         setCondition(_condition_);
 
         setOr(_or_);
 
-        setSecondCondition(_secondCondition_);
+        setOther(_other_);
 
     }
 
@@ -36,7 +36,7 @@ public final class AOrCondition extends PCondition
         return new AOrCondition(
             cloneNode(this._condition_),
             cloneNode(this._or_),
-            cloneNode(this._secondCondition_));
+            cloneNode(this._other_));
     }
 
     @Override
@@ -95,16 +95,16 @@ public final class AOrCondition extends PCondition
         this._or_ = node;
     }
 
-    public PSecondCondition getSecondCondition()
+    public POther getOther()
     {
-        return this._secondCondition_;
+        return this._other_;
     }
 
-    public void setSecondCondition(PSecondCondition node)
+    public void setOther(POther node)
     {
-        if(this._secondCondition_ != null)
+        if(this._other_ != null)
         {
-            this._secondCondition_.parent(null);
+            this._other_.parent(null);
         }
 
         if(node != null)
@@ -117,7 +117,7 @@ public final class AOrCondition extends PCondition
             node.parent(this);
         }
 
-        this._secondCondition_ = node;
+        this._other_ = node;
     }
 
     @Override
@@ -126,7 +126,7 @@ public final class AOrCondition extends PCondition
         return ""
             + toString(this._condition_)
             + toString(this._or_)
-            + toString(this._secondCondition_);
+            + toString(this._other_);
     }
 
     @Override
@@ -145,9 +145,9 @@ public final class AOrCondition extends PCondition
             return;
         }
 
-        if(this._secondCondition_ == child)
+        if(this._other_ == child)
         {
-            this._secondCondition_ = null;
+            this._other_ = null;
             return;
         }
 
@@ -170,9 +170,9 @@ public final class AOrCondition extends PCondition
             return;
         }
 
-        if(this._secondCondition_ == oldChild)
+        if(this._other_ == oldChild)
         {
-            setSecondCondition((PSecondCondition) newChild);
+            setOther((POther) newChild);
             return;
         }
 

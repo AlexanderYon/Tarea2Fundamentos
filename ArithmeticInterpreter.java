@@ -8,6 +8,7 @@ import tarea.node.ADivFactor;
 import tarea.node.AMinusExpr;
 import tarea.node.AModFactor;
 import tarea.node.AMultFactor;
+import tarea.node.ANegativeExpr;
 import tarea.node.ANumberTerm;
 import tarea.node.APlusExpr;
 import tarea.node.AVarTerm;
@@ -15,7 +16,7 @@ import tarea.node.PExpr;
 
 public class ArithmeticInterpreter extends DepthFirstAdapter {
     private Map<String, Object> mapVar;
-    private Stack<Object> stack = new Stack<>();
+    public Stack<Object> stack = new Stack<>();
     /* Guardará el primer valor de tipo string que encuentre si es que lo hace 
      * Será util para comunicarle al Interpreter que se procesó un texto y, posiblmente el usuario
      * quiera imprimirlo.
@@ -30,6 +31,17 @@ public class ArithmeticInterpreter extends DepthFirstAdapter {
     public Object eval(PExpr expr){
         expr.apply(this);
         return stack.pop();
+    }
+
+    @Override
+    public void caseANegativeExpr(ANegativeExpr node) {
+        node.getFactor().apply(this);
+        Object value = stack.pop();
+        if (value instanceof Integer) {
+            stack.push(-((Integer) value));
+        } else {
+            stack.push(-((Double) value));
+        }
     }
 
     @Override

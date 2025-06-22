@@ -12,10 +12,10 @@ public final class AIfElseFlowControl extends PFlowControl
     private TLPar _lPar_;
     private PCondition _condition_;
     private TRPar _rPar_;
-    private TLBracket _lBracket_;
-    private final LinkedList<PLine> _line_ = new LinkedList<PLine>();
-    private TRBracket _rBracket_;
-    private PElseStatement _elseStatement_;
+    private TLBrace _lBrace_;
+    private final LinkedList<PStatement> _statement_ = new LinkedList<PStatement>();
+    private TRBrace _rBrace_;
+    private PElseFlowControl _elseFlowControl_;
 
     public AIfElseFlowControl()
     {
@@ -27,10 +27,10 @@ public final class AIfElseFlowControl extends PFlowControl
         @SuppressWarnings("hiding") TLPar _lPar_,
         @SuppressWarnings("hiding") PCondition _condition_,
         @SuppressWarnings("hiding") TRPar _rPar_,
-        @SuppressWarnings("hiding") TLBracket _lBracket_,
-        @SuppressWarnings("hiding") List<?> _line_,
-        @SuppressWarnings("hiding") TRBracket _rBracket_,
-        @SuppressWarnings("hiding") PElseStatement _elseStatement_)
+        @SuppressWarnings("hiding") TLBrace _lBrace_,
+        @SuppressWarnings("hiding") List<?> _statement_,
+        @SuppressWarnings("hiding") TRBrace _rBrace_,
+        @SuppressWarnings("hiding") PElseFlowControl _elseFlowControl_)
     {
         // Constructor
         setIf(_if_);
@@ -41,13 +41,13 @@ public final class AIfElseFlowControl extends PFlowControl
 
         setRPar(_rPar_);
 
-        setLBracket(_lBracket_);
+        setLBrace(_lBrace_);
 
-        setLine(_line_);
+        setStatement(_statement_);
 
-        setRBracket(_rBracket_);
+        setRBrace(_rBrace_);
 
-        setElseStatement(_elseStatement_);
+        setElseFlowControl(_elseFlowControl_);
 
     }
 
@@ -59,10 +59,10 @@ public final class AIfElseFlowControl extends PFlowControl
             cloneNode(this._lPar_),
             cloneNode(this._condition_),
             cloneNode(this._rPar_),
-            cloneNode(this._lBracket_),
-            cloneList(this._line_),
-            cloneNode(this._rBracket_),
-            cloneNode(this._elseStatement_));
+            cloneNode(this._lBrace_),
+            cloneList(this._statement_),
+            cloneNode(this._rBrace_),
+            cloneNode(this._elseFlowControl_));
     }
 
     @Override
@@ -171,16 +171,16 @@ public final class AIfElseFlowControl extends PFlowControl
         this._rPar_ = node;
     }
 
-    public TLBracket getLBracket()
+    public TLBrace getLBrace()
     {
-        return this._lBracket_;
+        return this._lBrace_;
     }
 
-    public void setLBracket(TLBracket node)
+    public void setLBrace(TLBrace node)
     {
-        if(this._lBracket_ != null)
+        if(this._lBrace_ != null)
         {
-            this._lBracket_.parent(null);
+            this._lBrace_.parent(null);
         }
 
         if(node != null)
@@ -193,45 +193,45 @@ public final class AIfElseFlowControl extends PFlowControl
             node.parent(this);
         }
 
-        this._lBracket_ = node;
+        this._lBrace_ = node;
     }
 
-    public LinkedList<PLine> getLine()
+    public LinkedList<PStatement> getStatement()
     {
-        return this._line_;
+        return this._statement_;
     }
 
-    public void setLine(List<?> list)
+    public void setStatement(List<?> list)
     {
-        for(PLine e : this._line_)
+        for(PStatement e : this._statement_)
         {
             e.parent(null);
         }
-        this._line_.clear();
+        this._statement_.clear();
 
         for(Object obj_e : list)
         {
-            PLine e = (PLine) obj_e;
+            PStatement e = (PStatement) obj_e;
             if(e.parent() != null)
             {
                 e.parent().removeChild(e);
             }
 
             e.parent(this);
-            this._line_.add(e);
+            this._statement_.add(e);
         }
     }
 
-    public TRBracket getRBracket()
+    public TRBrace getRBrace()
     {
-        return this._rBracket_;
+        return this._rBrace_;
     }
 
-    public void setRBracket(TRBracket node)
+    public void setRBrace(TRBrace node)
     {
-        if(this._rBracket_ != null)
+        if(this._rBrace_ != null)
         {
-            this._rBracket_.parent(null);
+            this._rBrace_.parent(null);
         }
 
         if(node != null)
@@ -244,19 +244,19 @@ public final class AIfElseFlowControl extends PFlowControl
             node.parent(this);
         }
 
-        this._rBracket_ = node;
+        this._rBrace_ = node;
     }
 
-    public PElseStatement getElseStatement()
+    public PElseFlowControl getElseFlowControl()
     {
-        return this._elseStatement_;
+        return this._elseFlowControl_;
     }
 
-    public void setElseStatement(PElseStatement node)
+    public void setElseFlowControl(PElseFlowControl node)
     {
-        if(this._elseStatement_ != null)
+        if(this._elseFlowControl_ != null)
         {
-            this._elseStatement_.parent(null);
+            this._elseFlowControl_.parent(null);
         }
 
         if(node != null)
@@ -269,7 +269,7 @@ public final class AIfElseFlowControl extends PFlowControl
             node.parent(this);
         }
 
-        this._elseStatement_ = node;
+        this._elseFlowControl_ = node;
     }
 
     @Override
@@ -280,10 +280,10 @@ public final class AIfElseFlowControl extends PFlowControl
             + toString(this._lPar_)
             + toString(this._condition_)
             + toString(this._rPar_)
-            + toString(this._lBracket_)
-            + toString(this._line_)
-            + toString(this._rBracket_)
-            + toString(this._elseStatement_);
+            + toString(this._lBrace_)
+            + toString(this._statement_)
+            + toString(this._rBrace_)
+            + toString(this._elseFlowControl_);
     }
 
     @Override
@@ -314,26 +314,26 @@ public final class AIfElseFlowControl extends PFlowControl
             return;
         }
 
-        if(this._lBracket_ == child)
+        if(this._lBrace_ == child)
         {
-            this._lBracket_ = null;
+            this._lBrace_ = null;
             return;
         }
 
-        if(this._line_.remove(child))
+        if(this._statement_.remove(child))
         {
             return;
         }
 
-        if(this._rBracket_ == child)
+        if(this._rBrace_ == child)
         {
-            this._rBracket_ = null;
+            this._rBrace_ = null;
             return;
         }
 
-        if(this._elseStatement_ == child)
+        if(this._elseFlowControl_ == child)
         {
-            this._elseStatement_ = null;
+            this._elseFlowControl_ = null;
             return;
         }
 
@@ -368,19 +368,19 @@ public final class AIfElseFlowControl extends PFlowControl
             return;
         }
 
-        if(this._lBracket_ == oldChild)
+        if(this._lBrace_ == oldChild)
         {
-            setLBracket((TLBracket) newChild);
+            setLBrace((TLBrace) newChild);
             return;
         }
 
-        for(ListIterator<PLine> i = this._line_.listIterator(); i.hasNext();)
+        for(ListIterator<PStatement> i = this._statement_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((PLine) newChild);
+                    i.set((PStatement) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
                     return;
@@ -392,15 +392,15 @@ public final class AIfElseFlowControl extends PFlowControl
             }
         }
 
-        if(this._rBracket_ == oldChild)
+        if(this._rBrace_ == oldChild)
         {
-            setRBracket((TRBracket) newChild);
+            setRBrace((TRBrace) newChild);
             return;
         }
 
-        if(this._elseStatement_ == oldChild)
+        if(this._elseFlowControl_ == oldChild)
         {
-            setElseStatement((PElseStatement) newChild);
+            setElseFlowControl((PElseFlowControl) newChild);
             return;
         }
 

@@ -24,7 +24,7 @@ Directorio que guarda excepciones personalizadas
 Directorio que contiene todas las clases generadas por sableCC
 
 ### Ficheros
-- program.grammar: Definición de la gramática
+- tarea.grammar: Definición de la gramática
 - README.md
 - Main.java: Punto de partida del programa
 - Test.txt: Código fuente a interpretar / ejecutar

@@ -5,13 +5,13 @@ import exceptions.TypeException;
 import exceptions.VariableNotDeclared;
 import tarea.analysis.DepthFirstAdapter;
 import tarea.node.AAndCondition;
-import tarea.node.AEqualsSecondCondition;
+import tarea.node.AEqualsOther;
 import tarea.node.AExprItem;
-import tarea.node.AGreaterEqSecondCondition;
-import tarea.node.AGreaterSecondCondition;
-import tarea.node.ALessEqSecondCondition;
-import tarea.node.ALessSecondCondition;
-import tarea.node.ANotEqualsSecondCondition;
+import tarea.node.AGreaterEqOther;
+import tarea.node.AGreaterOther;
+import tarea.node.ALessEqOther;
+import tarea.node.ALessOther;
+import tarea.node.ANotEqualsOther;
 import tarea.node.AOrCondition;
 import tarea.node.AStringItem;
 import tarea.node.PCondition;
@@ -35,7 +35,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
     public void caseAAndCondition(AAndCondition node) {
         node.getCondition().apply(this);
         boolean current = result;
-        node.getSecondCondition().apply(this);
+        node.getOther().apply(this);
         result = current && result;
     }
 
@@ -43,12 +43,12 @@ public class BooleanInterpreter extends DepthFirstAdapter{
     public void caseAOrCondition(AOrCondition node) {
         node.getCondition().apply(this);
         boolean current = result;
-        node.getSecondCondition().apply(this);
+        node.getOther().apply(this);
         result = current || result;
     }
 
     @Override
-    public void caseAEqualsSecondCondition(AEqualsSecondCondition node) {
+    public void caseAEqualsOther(AEqualsOther node) {
         String varName = node.getVar().getText();
         
         // Verificar que existe la variable
@@ -76,7 +76,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseAGreaterEqSecondCondition(AGreaterEqSecondCondition node) {
+    public void caseAGreaterEqOther(AGreaterEqOther node) {
         String varName = node.getVar().getText();
 
         // Verificar que existe la variable
@@ -94,7 +94,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseAGreaterSecondCondition(AGreaterSecondCondition node) {
+    public void caseAGreaterOther(AGreaterOther node) {
         String varName = node.getVar().getText();
 
         // Verificar que existe la variable
@@ -112,7 +112,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseALessEqSecondCondition(ALessEqSecondCondition node) {
+    public void caseALessEqOther(ALessEqOther node) {
         String varName = node.getVar().getText();
 
         // Verificar que existe la variable
@@ -130,7 +130,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseALessSecondCondition(ALessSecondCondition node) {
+    public void caseALessOther(ALessOther node) {
         String varName = node.getVar().getText();
 
         // Verificar que existe la variable
@@ -148,7 +148,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseANotEqualsSecondCondition(ANotEqualsSecondCondition node) {
+    public void caseANotEqualsOther(ANotEqualsOther node) {
         String varName = node.getVar().getText();
         
         // Verificar que existe la variable

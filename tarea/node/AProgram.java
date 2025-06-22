@@ -2,46 +2,41 @@
 
 package tarea.node;
 
-import java.util.*;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AWhileFlowControl extends PFlowControl
+public final class AProgram extends PProgram
 {
-    private TWhile _while_;
+    private TMain _main_;
     private TLPar _lPar_;
-    private PCondition _condition_;
     private TRPar _rPar_;
     private TLBrace _lBrace_;
-    private final LinkedList<PStatement> _statement_ = new LinkedList<PStatement>();
+    private PContent _content_;
     private TRBrace _rBrace_;
 
-    public AWhileFlowControl()
+    public AProgram()
     {
         // Constructor
     }
 
-    public AWhileFlowControl(
-        @SuppressWarnings("hiding") TWhile _while_,
+    public AProgram(
+        @SuppressWarnings("hiding") TMain _main_,
         @SuppressWarnings("hiding") TLPar _lPar_,
-        @SuppressWarnings("hiding") PCondition _condition_,
         @SuppressWarnings("hiding") TRPar _rPar_,
         @SuppressWarnings("hiding") TLBrace _lBrace_,
-        @SuppressWarnings("hiding") List<?> _statement_,
+        @SuppressWarnings("hiding") PContent _content_,
         @SuppressWarnings("hiding") TRBrace _rBrace_)
     {
         // Constructor
-        setWhile(_while_);
+        setMain(_main_);
 
         setLPar(_lPar_);
-
-        setCondition(_condition_);
 
         setRPar(_rPar_);
 
         setLBrace(_lBrace_);
 
-        setStatement(_statement_);
+        setContent(_content_);
 
         setRBrace(_rBrace_);
 
@@ -50,32 +45,31 @@ public final class AWhileFlowControl extends PFlowControl
     @Override
     public Object clone()
     {
-        return new AWhileFlowControl(
-            cloneNode(this._while_),
+        return new AProgram(
+            cloneNode(this._main_),
             cloneNode(this._lPar_),
-            cloneNode(this._condition_),
             cloneNode(this._rPar_),
             cloneNode(this._lBrace_),
-            cloneList(this._statement_),
+            cloneNode(this._content_),
             cloneNode(this._rBrace_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAWhileFlowControl(this);
+        ((Analysis) sw).caseAProgram(this);
     }
 
-    public TWhile getWhile()
+    public TMain getMain()
     {
-        return this._while_;
+        return this._main_;
     }
 
-    public void setWhile(TWhile node)
+    public void setMain(TMain node)
     {
-        if(this._while_ != null)
+        if(this._main_ != null)
         {
-            this._while_.parent(null);
+            this._main_.parent(null);
         }
 
         if(node != null)
@@ -88,7 +82,7 @@ public final class AWhileFlowControl extends PFlowControl
             node.parent(this);
         }
 
-        this._while_ = node;
+        this._main_ = node;
     }
 
     public TLPar getLPar()
@@ -114,31 +108,6 @@ public final class AWhileFlowControl extends PFlowControl
         }
 
         this._lPar_ = node;
-    }
-
-    public PCondition getCondition()
-    {
-        return this._condition_;
-    }
-
-    public void setCondition(PCondition node)
-    {
-        if(this._condition_ != null)
-        {
-            this._condition_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._condition_ = node;
     }
 
     public TRPar getRPar()
@@ -191,30 +160,29 @@ public final class AWhileFlowControl extends PFlowControl
         this._lBrace_ = node;
     }
 
-    public LinkedList<PStatement> getStatement()
+    public PContent getContent()
     {
-        return this._statement_;
+        return this._content_;
     }
 
-    public void setStatement(List<?> list)
+    public void setContent(PContent node)
     {
-        for(PStatement e : this._statement_)
+        if(this._content_ != null)
         {
-            e.parent(null);
+            this._content_.parent(null);
         }
-        this._statement_.clear();
 
-        for(Object obj_e : list)
+        if(node != null)
         {
-            PStatement e = (PStatement) obj_e;
-            if(e.parent() != null)
+            if(node.parent() != null)
             {
-                e.parent().removeChild(e);
+                node.parent().removeChild(node);
             }
 
-            e.parent(this);
-            this._statement_.add(e);
+            node.parent(this);
         }
+
+        this._content_ = node;
     }
 
     public TRBrace getRBrace()
@@ -246,12 +214,11 @@ public final class AWhileFlowControl extends PFlowControl
     public String toString()
     {
         return ""
-            + toString(this._while_)
+            + toString(this._main_)
             + toString(this._lPar_)
-            + toString(this._condition_)
             + toString(this._rPar_)
             + toString(this._lBrace_)
-            + toString(this._statement_)
+            + toString(this._content_)
             + toString(this._rBrace_);
     }
 
@@ -259,21 +226,15 @@ public final class AWhileFlowControl extends PFlowControl
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._while_ == child)
+        if(this._main_ == child)
         {
-            this._while_ = null;
+            this._main_ = null;
             return;
         }
 
         if(this._lPar_ == child)
         {
             this._lPar_ = null;
-            return;
-        }
-
-        if(this._condition_ == child)
-        {
-            this._condition_ = null;
             return;
         }
 
@@ -289,8 +250,9 @@ public final class AWhileFlowControl extends PFlowControl
             return;
         }
 
-        if(this._statement_.remove(child))
+        if(this._content_ == child)
         {
+            this._content_ = null;
             return;
         }
 
@@ -307,21 +269,15 @@ public final class AWhileFlowControl extends PFlowControl
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._while_ == oldChild)
+        if(this._main_ == oldChild)
         {
-            setWhile((TWhile) newChild);
+            setMain((TMain) newChild);
             return;
         }
 
         if(this._lPar_ == oldChild)
         {
             setLPar((TLPar) newChild);
-            return;
-        }
-
-        if(this._condition_ == oldChild)
-        {
-            setCondition((PCondition) newChild);
             return;
         }
 
@@ -337,22 +293,10 @@ public final class AWhileFlowControl extends PFlowControl
             return;
         }
 
-        for(ListIterator<PStatement> i = this._statement_.listIterator(); i.hasNext();)
+        if(this._content_ == oldChild)
         {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
-                    i.set((PStatement) newChild);
-                    newChild.parent(this);
-                    oldChild.parent(null);
-                    return;
-                }
-
-                i.remove();
-                oldChild.parent(null);
-                return;
-            }
+            setContent((PContent) newChild);
+            return;
         }
 
         if(this._rBrace_ == oldChild)

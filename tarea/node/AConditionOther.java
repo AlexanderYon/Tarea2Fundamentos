@@ -5,44 +5,69 @@ package tarea.node;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AAndCondition extends PCondition
+public final class AConditionOther extends POther
 {
+    private TLPar _lPar_;
     private PCondition _condition_;
-    private TAnd _and_;
-    private POther _other_;
+    private TRPar _rPar_;
 
-    public AAndCondition()
+    public AConditionOther()
     {
         // Constructor
     }
 
-    public AAndCondition(
+    public AConditionOther(
+        @SuppressWarnings("hiding") TLPar _lPar_,
         @SuppressWarnings("hiding") PCondition _condition_,
-        @SuppressWarnings("hiding") TAnd _and_,
-        @SuppressWarnings("hiding") POther _other_)
+        @SuppressWarnings("hiding") TRPar _rPar_)
     {
         // Constructor
+        setLPar(_lPar_);
+
         setCondition(_condition_);
 
-        setAnd(_and_);
-
-        setOther(_other_);
+        setRPar(_rPar_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AAndCondition(
+        return new AConditionOther(
+            cloneNode(this._lPar_),
             cloneNode(this._condition_),
-            cloneNode(this._and_),
-            cloneNode(this._other_));
+            cloneNode(this._rPar_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAAndCondition(this);
+        ((Analysis) sw).caseAConditionOther(this);
+    }
+
+    public TLPar getLPar()
+    {
+        return this._lPar_;
+    }
+
+    public void setLPar(TLPar node)
+    {
+        if(this._lPar_ != null)
+        {
+            this._lPar_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._lPar_ = node;
     }
 
     public PCondition getCondition()
@@ -70,16 +95,16 @@ public final class AAndCondition extends PCondition
         this._condition_ = node;
     }
 
-    public TAnd getAnd()
+    public TRPar getRPar()
     {
-        return this._and_;
+        return this._rPar_;
     }
 
-    public void setAnd(TAnd node)
+    public void setRPar(TRPar node)
     {
-        if(this._and_ != null)
+        if(this._rPar_ != null)
         {
-            this._and_.parent(null);
+            this._rPar_.parent(null);
         }
 
         if(node != null)
@@ -92,62 +117,37 @@ public final class AAndCondition extends PCondition
             node.parent(this);
         }
 
-        this._and_ = node;
-    }
-
-    public POther getOther()
-    {
-        return this._other_;
-    }
-
-    public void setOther(POther node)
-    {
-        if(this._other_ != null)
-        {
-            this._other_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._other_ = node;
+        this._rPar_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
+            + toString(this._lPar_)
             + toString(this._condition_)
-            + toString(this._and_)
-            + toString(this._other_);
+            + toString(this._rPar_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
+        if(this._lPar_ == child)
+        {
+            this._lPar_ = null;
+            return;
+        }
+
         if(this._condition_ == child)
         {
             this._condition_ = null;
             return;
         }
 
-        if(this._and_ == child)
+        if(this._rPar_ == child)
         {
-            this._and_ = null;
-            return;
-        }
-
-        if(this._other_ == child)
-        {
-            this._other_ = null;
+            this._rPar_ = null;
             return;
         }
 
@@ -158,21 +158,21 @@ public final class AAndCondition extends PCondition
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
+        if(this._lPar_ == oldChild)
+        {
+            setLPar((TLPar) newChild);
+            return;
+        }
+
         if(this._condition_ == oldChild)
         {
             setCondition((PCondition) newChild);
             return;
         }
 
-        if(this._and_ == oldChild)
+        if(this._rPar_ == oldChild)
         {
-            setAnd((TAnd) newChild);
-            return;
-        }
-
-        if(this._other_ == oldChild)
-        {
-            setOther((POther) newChild);
+            setRPar((TRPar) newChild);
             return;
         }
 
