@@ -43,10 +43,10 @@ public class Interpreter extends DepthFirstAdapter{
     @Override
     public void caseADoubleDeclaration(ADoubleDeclaration node) {
         String varName = node.getVar().getText();
-        if (mapVar.containsKey(varName)){
+        if (mapVar.containsKey(varName)) {
             throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
         }
-        mapVar.put(varName, 0);
+        mapVar.put(varName, 0.0);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class Interpreter extends DepthFirstAdapter{
         if (mapVar.containsKey(varName)){
             throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
         }
-        mapVar.put(varName, new ArithmeticInterpreter(this.mapVar).eval(parsedAssignment.getExpr()));
+        mapVar.put(varName, new ArithmeticInterpreter(this.mapVar, Double.class).eval(parsedAssignment.getExpr()));
     }
     
     @Override
@@ -107,7 +107,7 @@ public class Interpreter extends DepthFirstAdapter{
         if (mapVar.containsKey(varName)){
             throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
         }
-        mapVar.put(varName, new ArithmeticInterpreter(this.mapVar).eval(parsedAssignment.getExpr()));
+        mapVar.put(varName, new ArithmeticInterpreter(this.mapVar, Integer.class).eval(parsedAssignment.getExpr()));
     }
     
     @Override
@@ -139,7 +139,7 @@ public class Interpreter extends DepthFirstAdapter{
         if (init instanceof AExprInitialization){
             AExprInitialization parsedAssignment = (AExprInitialization) init;
             varName = parsedAssignment.getVar().getText();
-            varValue = new ArithmeticInterpreter(mapVar).eval(parsedAssignment.getExpr());
+            varValue = new ArithmeticInterpreter(mapVar, ((Number) mapVar.get(varName)).getClass()).eval(parsedAssignment.getExpr());
         }else{
             AStringInitialization parsedAssignment = (AStringInitialization) init;
             varName = parsedAssignment.getVar().getText();
@@ -151,7 +151,7 @@ public class Interpreter extends DepthFirstAdapter{
     @Override
     public void caseAPrintExprStatement(APrintExprStatement node) {
         // Intentar resolver la expresión. Si no resulta, es porque se desea imprimir un string
-        ArithmeticInterpreter ai = new ArithmeticInterpreter(this.mapVar);
+        ArithmeticInterpreter ai = new ArithmeticInterpreter(this.mapVar, Double.class);
         try{
             System.out.print(ai.eval(node.getExpr()));
         } catch (TypeException e){
@@ -162,7 +162,7 @@ public class Interpreter extends DepthFirstAdapter{
     @Override
     public void caseAPrintlnExprStatement(APrintlnExprStatement node) {
         // Intentar resolver la expresión. Si no resulta, es porque se desea imprimir un string
-        ArithmeticInterpreter ai = new ArithmeticInterpreter(this.mapVar);
+        ArithmeticInterpreter ai = new ArithmeticInterpreter(this.mapVar, Double.class);
         try {
             System.out.println(ai.eval(node.getExpr()));
         } catch (TypeException e) {
@@ -274,7 +274,7 @@ public class Interpreter extends DepthFirstAdapter{
             }
             Parser parser = new Parser(new Lexer(new PushbackReader(new StringReader(programa), 1024)));
             Start ast = parser.parse();
-            ArithmeticInterpreter interpreter = new ArithmeticInterpreter(mapVar);
+            ArithmeticInterpreter interpreter = new ArithmeticInterpreter(mapVar, Double.class);
             ast.apply(interpreter);
             mapVar.put(varName, interpreter.stack.pop());
         } catch (Exception e) {

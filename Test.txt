@@ -1,22 +1,4 @@
 main() {
-  int x = -1;
-  int y = -(1);
-  int z = -(-1);
-  int w = -(-x+(z*3 - 10));
   string opcion = "y";
-  int expr;
-  println(x);
-  println(y);
-  println(z);
-  println(w);
-
-  while (opcion != "n") {
-    print("Ingrese la expresión aritmética: ");
-    input(expr);
-    println("");
-    print("Valor parseado: ");
-    println(expr);
-    print("Continuar? ");
-    input(opcion);
-  }
+  double numero = 1/4;
 }

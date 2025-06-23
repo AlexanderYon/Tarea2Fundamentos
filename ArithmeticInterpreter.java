@@ -22,10 +22,12 @@ public class ArithmeticInterpreter extends DepthFirstAdapter {
      * quiera imprimirlo.
     */
     public String conflict;
+    private final Class<? extends Number> typeNumber;
 
-    public ArithmeticInterpreter(Map<String, Object> mapVar) {
+    public ArithmeticInterpreter(Map<String, Object> mapVar, Class<? extends Number> typeNumber) {
         super();
         this.mapVar = mapVar;
+        this.typeNumber = typeNumber;
     }
 
     public Object eval(PExpr expr){
@@ -47,9 +49,9 @@ public class ArithmeticInterpreter extends DepthFirstAdapter {
     @Override
     public void caseANumberTerm(ANumberTerm node) {
         String value = node.getNumber().getText();
-
         // Verificar que value sea un número
-        if (value.matches("^-?\\d+\\.\\d+$")){ // caso double: [0-9]+.[0-9]+
+        // if (value.matches("^-?\\d+\\.\\d+$")){ // caso double: [0-9]+.[0-9]+
+        if (typeNumber == Double.class) {
             stack.push(Double.parseDouble(value));
         }else{ // caso int: [0-9]+
             stack.push(Integer.parseInt(value));
@@ -72,7 +74,7 @@ public class ArithmeticInterpreter extends DepthFirstAdapter {
         }
 
         // Guardar el número en la pila con su tipo respectivo
-        if (varValue instanceof Double){
+        if (typeNumber == Double.class){
             stack.push(((Number) varValue).doubleValue());
         }else{
             stack.push(((Number) varValue).intValue());
@@ -86,7 +88,8 @@ public class ArithmeticInterpreter extends DepthFirstAdapter {
         Number left = (Number) stack.pop();
 
         // Se define una promoción de tipo int -> double
-        if (right instanceof Double || left instanceof Double){
+        // if (right instanceof Double || left instanceof Double){
+        if (typeNumber == Double.class){
             stack.push(left.doubleValue() / right.doubleValue());
         }else{
             stack.push(left.intValue() / right.intValue());
@@ -100,7 +103,8 @@ public class ArithmeticInterpreter extends DepthFirstAdapter {
         Number left = (Number) stack.pop();
 
         // Se define una promoción de tipo int -> double
-        if (right instanceof Double || left instanceof Double){
+        // if (right instanceof Double || left instanceof Double){
+        if (typeNumber == Double.class){
             stack.push(left.doubleValue() - right.doubleValue());
         }else{
             stack.push(left.intValue() - right.intValue());
@@ -114,7 +118,8 @@ public class ArithmeticInterpreter extends DepthFirstAdapter {
         Number left = (Number) stack.pop();
 
         // Se define una promoción de tipo int -> double
-        if (right instanceof Double || left instanceof Double){
+        // if (right instanceof Double || left instanceof Double){
+        if (typeNumber == Double.class){
             stack.push(left.doubleValue() % right.doubleValue());
         }else{
             stack.push(left.intValue() % right.intValue());
@@ -129,7 +134,8 @@ public class ArithmeticInterpreter extends DepthFirstAdapter {
         Number left = (Number) stack.pop();
 
         // Se define una promoción de tipo int -> double
-        if (right instanceof Double || left instanceof Double){
+        // if (right instanceof Double || left instanceof Double){
+        if (typeNumber == Double.class){
             stack.push(left.doubleValue() * right.doubleValue());
         }else{
             stack.push(left.intValue() * right.intValue());
@@ -143,7 +149,8 @@ public class ArithmeticInterpreter extends DepthFirstAdapter {
         Number left = (Number) stack.pop();
 
         // Se define una promoción de tipo int -> double
-        if (right instanceof Double || left instanceof Double){
+        // if (right instanceof Double || left instanceof Double){
+        if (typeNumber == Double.class){
             stack.push(left.doubleValue() + right.doubleValue());
         }else{
             stack.push(left.intValue() + right.intValue());

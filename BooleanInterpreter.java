@@ -64,7 +64,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
             if (!(mapVar.get(varName) instanceof Number)){
                 throw new TypeException("Variable '" + varName + "' does not match a numeric type");
             }
-            result = ((Number) mapVar.get(varName)).doubleValue() == ((Number) new ArithmeticInterpreter(mapVar).eval(((AExprItem) item).getExpr())).doubleValue();
+            result = ((Number) mapVar.get(varName)).doubleValue() == ((Number) new ArithmeticInterpreter(mapVar, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
     
         // Caso item es un string
         } else {
@@ -90,7 +90,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
         if (item instanceof AStringItem || mapVar.get(varName) instanceof String) {
             throw new IllegalOperation(" The operator '>=' is undefined for type 'string' ");
         }
-        result = ((Number) mapVar.get(varName)).doubleValue() >= ((Number) new ArithmeticInterpreter(mapVar).eval(((AExprItem) item).getExpr())).doubleValue();
+        result = ((Number) mapVar.get(varName)).doubleValue() >= ((Number) new ArithmeticInterpreter(mapVar, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
     }
 
     @Override
@@ -108,7 +108,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
         if (item instanceof AStringItem || mapVar.get(varName) instanceof String) {
             throw new IllegalOperation(" The operator '>' is undefined for type 'string' ");
         }
-        result = ((Number) mapVar.get(varName)).doubleValue() > ((Number) new ArithmeticInterpreter(mapVar).eval(((AExprItem) item).getExpr())).doubleValue();
+        result = ((Number) mapVar.get(varName)).doubleValue() > ((Number) new ArithmeticInterpreter(mapVar, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
     }
 
     @Override
@@ -126,7 +126,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
         if (item instanceof AStringItem || mapVar.get(varName) instanceof String) {
             throw new IllegalOperation(" The operator '<=' is undefined for type 'string' ");
         }
-        result = ((Number) mapVar.get(varName)).doubleValue() <= ((Number) new ArithmeticInterpreter(mapVar).eval(((AExprItem) item).getExpr())).doubleValue();
+        result = ((Number) mapVar.get(varName)).doubleValue() <= ((Number) new ArithmeticInterpreter(mapVar, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
     }
 
     @Override
@@ -144,7 +144,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
         if (item instanceof AStringItem || mapVar.get(varName) instanceof String) {
             throw new IllegalOperation(" The operator '<' is undefined for type 'string' ");
         }
-        result = ((Number) mapVar.get(varName)).doubleValue() < ((Number) new ArithmeticInterpreter(mapVar).eval(((AExprItem) item).getExpr())).doubleValue();
+        result = ((Number) mapVar.get(varName)).doubleValue() < ((Number) new ArithmeticInterpreter(mapVar, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
     }
 
     @Override
@@ -164,7 +164,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
             if (!(mapVar.get(varName) instanceof Number)){
                 throw new TypeException("Variable '" + varName + "' does not match a numeric type");
             }
-            result = mapVar.get(varName) != new ArithmeticInterpreter(mapVar).eval(((AExprItem) item).getExpr());
+            result = mapVar.get(varName) != new ArithmeticInterpreter(mapVar, Double.class).eval(((AExprItem) item).getExpr());
     
         // Caso item es un string
         } else {
