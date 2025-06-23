@@ -34,3 +34,7 @@ Directorio que contiene todas las clases generadas por sableCC
 
 El hecho de que estas clases hayan sido declaras fuera del directorio `tarea/` implica que se puede volver a ejecutar el comando `sablecc`
 sin que estas clases se pierdan en el proceso.
+
+## Informe
+El informe elaborado se encuentra en el siguiente link:
+[Informe Docs Google](https://docs.google.com/document/d/1gMvCc7MYr7GVgzR8XTqDp67V88r3uRHMANIxLVsX3wk/edit?usp=sharing)
