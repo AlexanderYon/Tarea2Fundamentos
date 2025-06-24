@@ -13,13 +13,7 @@ public interface Analysis extends Switch
 
     void caseStart(Start node);
     void caseAProgram(AProgram node);
-    void caseAContentFormatContent(AContentFormatContent node);
-    void caseAIntDeclaration(AIntDeclaration node);
-    void caseAStringDeclaration(AStringDeclaration node);
-    void caseADoubleDeclaration(ADoubleDeclaration node);
-    void caseAIntInitializationDeclaration(AIntInitializationDeclaration node);
-    void caseAStringInitializationDeclaration(AStringInitializationDeclaration node);
-    void caseADoubleInitializationDeclaration(ADoubleInitializationDeclaration node);
+    void caseADeclarationStatement(ADeclarationStatement node);
     void caseAPrintExprStatement(APrintExprStatement node);
     void caseAPrintStringStatement(APrintStringStatement node);
     void caseAPrintlnExprStatement(APrintlnExprStatement node);
@@ -29,6 +23,12 @@ public interface Analysis extends Switch
     void caseAInitializationStatement(AInitializationStatement node);
     void caseAIncreaseVarStatement(AIncreaseVarStatement node);
     void caseADecreaseVarStatement(ADecreaseVarStatement node);
+    void caseAIntDeclaration(AIntDeclaration node);
+    void caseAStringDeclaration(AStringDeclaration node);
+    void caseADoubleDeclaration(ADoubleDeclaration node);
+    void caseAIntInitializationDeclaration(AIntInitializationDeclaration node);
+    void caseAStringInitializationDeclaration(AStringInitializationDeclaration node);
+    void caseADoubleInitializationDeclaration(ADoubleInitializationDeclaration node);
     void caseAStringInitialization(AStringInitialization node);
     void caseAExprInitialization(AExprInitialization node);
     void caseAIfFlowControl(AIfFlowControl node);

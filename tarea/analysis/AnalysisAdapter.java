@@ -81,43 +81,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAContentFormatContent(AContentFormatContent node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAIntDeclaration(AIntDeclaration node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAStringDeclaration(AStringDeclaration node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseADoubleDeclaration(ADoubleDeclaration node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAIntInitializationDeclaration(AIntInitializationDeclaration node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAStringInitializationDeclaration(AStringInitializationDeclaration node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseADoubleInitializationDeclaration(ADoubleInitializationDeclaration node)
+    public void caseADeclarationStatement(ADeclarationStatement node)
     {
         defaultCase(node);
     }
@@ -172,6 +136,42 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseADecreaseVarStatement(ADecreaseVarStatement node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAIntDeclaration(AIntDeclaration node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAStringDeclaration(AStringDeclaration node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseADoubleDeclaration(ADoubleDeclaration node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAIntInitializationDeclaration(AIntInitializationDeclaration node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAStringInitializationDeclaration(AStringInitializationDeclaration node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseADoubleInitializationDeclaration(ADoubleInitializationDeclaration node)
     {
         defaultCase(node);
     }

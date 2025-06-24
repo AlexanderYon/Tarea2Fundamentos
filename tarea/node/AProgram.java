@@ -2,6 +2,7 @@
 
 package tarea.node;
 
+import java.util.*;
 import tarea.analysis.*;
 
 @SuppressWarnings("nls")
@@ -11,7 +12,7 @@ public final class AProgram extends PProgram
     private TLPar _lPar_;
     private TRPar _rPar_;
     private TLBrace _lBrace_;
-    private PContent _content_;
+    private final LinkedList<PStatement> _statement_ = new LinkedList<PStatement>();
     private TRBrace _rBrace_;
 
     public AProgram()
@@ -24,7 +25,7 @@ public final class AProgram extends PProgram
         @SuppressWarnings("hiding") TLPar _lPar_,
         @SuppressWarnings("hiding") TRPar _rPar_,
         @SuppressWarnings("hiding") TLBrace _lBrace_,
-        @SuppressWarnings("hiding") PContent _content_,
+        @SuppressWarnings("hiding") List<?> _statement_,
         @SuppressWarnings("hiding") TRBrace _rBrace_)
     {
         // Constructor
@@ -36,7 +37,7 @@ public final class AProgram extends PProgram
 
         setLBrace(_lBrace_);
 
-        setContent(_content_);
+        setStatement(_statement_);
 
         setRBrace(_rBrace_);
 
@@ -50,7 +51,7 @@ public final class AProgram extends PProgram
             cloneNode(this._lPar_),
             cloneNode(this._rPar_),
             cloneNode(this._lBrace_),
-            cloneNode(this._content_),
+            cloneList(this._statement_),
             cloneNode(this._rBrace_));
     }
 
@@ -160,29 +161,30 @@ public final class AProgram extends PProgram
         this._lBrace_ = node;
     }
 
-    public PContent getContent()
+    public LinkedList<PStatement> getStatement()
     {
-        return this._content_;
+        return this._statement_;
     }
 
-    public void setContent(PContent node)
+    public void setStatement(List<?> list)
     {
-        if(this._content_ != null)
+        for(PStatement e : this._statement_)
         {
-            this._content_.parent(null);
+            e.parent(null);
         }
+        this._statement_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PStatement e = (PStatement) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._statement_.add(e);
         }
-
-        this._content_ = node;
     }
 
     public TRBrace getRBrace()
@@ -218,7 +220,7 @@ public final class AProgram extends PProgram
             + toString(this._lPar_)
             + toString(this._rPar_)
             + toString(this._lBrace_)
-            + toString(this._content_)
+            + toString(this._statement_)
             + toString(this._rBrace_);
     }
 
@@ -250,9 +252,8 @@ public final class AProgram extends PProgram
             return;
         }
 
-        if(this._content_ == child)
+        if(this._statement_.remove(child))
         {
-            this._content_ = null;
             return;
         }
 
@@ -293,10 +294,22 @@ public final class AProgram extends PProgram
             return;
         }
 
-        if(this._content_ == oldChild)
+        for(ListIterator<PStatement> i = this._statement_.listIterator(); i.hasNext();)
         {
-            setContent((PContent) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PStatement) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         if(this._rBrace_ == oldChild)

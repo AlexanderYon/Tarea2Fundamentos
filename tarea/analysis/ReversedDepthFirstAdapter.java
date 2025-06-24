@@ -54,9 +54,13 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getRBrace().apply(this);
         }
-        if(node.getContent() != null)
         {
-            node.getContent().apply(this);
+            List<PStatement> copy = new ArrayList<PStatement>(node.getStatement());
+            Collections.reverse(copy);
+            for(PStatement e : copy)
+            {
+                e.apply(this);
+            }
         }
         if(node.getLBrace() != null)
         {
@@ -77,211 +81,25 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAProgram(node);
     }
 
-    public void inAContentFormatContent(AContentFormatContent node)
+    public void inADeclarationStatement(ADeclarationStatement node)
     {
         defaultIn(node);
     }
 
-    public void outAContentFormatContent(AContentFormatContent node)
+    public void outADeclarationStatement(ADeclarationStatement node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAContentFormatContent(AContentFormatContent node)
+    public void caseADeclarationStatement(ADeclarationStatement node)
     {
-        inAContentFormatContent(node);
+        inADeclarationStatement(node);
+        if(node.getDeclaration() != null)
         {
-            List<PStatement> copy = new ArrayList<PStatement>(node.getStatement());
-            Collections.reverse(copy);
-            for(PStatement e : copy)
-            {
-                e.apply(this);
-            }
+            node.getDeclaration().apply(this);
         }
-        {
-            List<PDeclaration> copy = new ArrayList<PDeclaration>(node.getDeclaration());
-            Collections.reverse(copy);
-            for(PDeclaration e : copy)
-            {
-                e.apply(this);
-            }
-        }
-        outAContentFormatContent(node);
-    }
-
-    public void inAIntDeclaration(AIntDeclaration node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAIntDeclaration(AIntDeclaration node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAIntDeclaration(AIntDeclaration node)
-    {
-        inAIntDeclaration(node);
-        if(node.getSemicolon() != null)
-        {
-            node.getSemicolon().apply(this);
-        }
-        if(node.getVar() != null)
-        {
-            node.getVar().apply(this);
-        }
-        if(node.getInt() != null)
-        {
-            node.getInt().apply(this);
-        }
-        outAIntDeclaration(node);
-    }
-
-    public void inAStringDeclaration(AStringDeclaration node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAStringDeclaration(AStringDeclaration node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAStringDeclaration(AStringDeclaration node)
-    {
-        inAStringDeclaration(node);
-        if(node.getSemicolon() != null)
-        {
-            node.getSemicolon().apply(this);
-        }
-        if(node.getVar() != null)
-        {
-            node.getVar().apply(this);
-        }
-        if(node.getString() != null)
-        {
-            node.getString().apply(this);
-        }
-        outAStringDeclaration(node);
-    }
-
-    public void inADoubleDeclaration(ADoubleDeclaration node)
-    {
-        defaultIn(node);
-    }
-
-    public void outADoubleDeclaration(ADoubleDeclaration node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseADoubleDeclaration(ADoubleDeclaration node)
-    {
-        inADoubleDeclaration(node);
-        if(node.getSemicolon() != null)
-        {
-            node.getSemicolon().apply(this);
-        }
-        if(node.getVar() != null)
-        {
-            node.getVar().apply(this);
-        }
-        if(node.getDouble() != null)
-        {
-            node.getDouble().apply(this);
-        }
-        outADoubleDeclaration(node);
-    }
-
-    public void inAIntInitializationDeclaration(AIntInitializationDeclaration node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAIntInitializationDeclaration(AIntInitializationDeclaration node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAIntInitializationDeclaration(AIntInitializationDeclaration node)
-    {
-        inAIntInitializationDeclaration(node);
-        if(node.getSemicolon() != null)
-        {
-            node.getSemicolon().apply(this);
-        }
-        if(node.getInitialization() != null)
-        {
-            node.getInitialization().apply(this);
-        }
-        if(node.getInt() != null)
-        {
-            node.getInt().apply(this);
-        }
-        outAIntInitializationDeclaration(node);
-    }
-
-    public void inAStringInitializationDeclaration(AStringInitializationDeclaration node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAStringInitializationDeclaration(AStringInitializationDeclaration node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAStringInitializationDeclaration(AStringInitializationDeclaration node)
-    {
-        inAStringInitializationDeclaration(node);
-        if(node.getSemicolon() != null)
-        {
-            node.getSemicolon().apply(this);
-        }
-        if(node.getInitialization() != null)
-        {
-            node.getInitialization().apply(this);
-        }
-        if(node.getString() != null)
-        {
-            node.getString().apply(this);
-        }
-        outAStringInitializationDeclaration(node);
-    }
-
-    public void inADoubleInitializationDeclaration(ADoubleInitializationDeclaration node)
-    {
-        defaultIn(node);
-    }
-
-    public void outADoubleInitializationDeclaration(ADoubleInitializationDeclaration node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseADoubleInitializationDeclaration(ADoubleInitializationDeclaration node)
-    {
-        inADoubleInitializationDeclaration(node);
-        if(node.getSemicolon() != null)
-        {
-            node.getSemicolon().apply(this);
-        }
-        if(node.getInitialization() != null)
-        {
-            node.getInitialization().apply(this);
-        }
-        if(node.getDouble() != null)
-        {
-            node.getDouble().apply(this);
-        }
-        outADoubleInitializationDeclaration(node);
+        outADeclarationStatement(node);
     }
 
     public void inAPrintExprStatement(APrintExprStatement node)
@@ -571,6 +389,180 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getVar().apply(this);
         }
         outADecreaseVarStatement(node);
+    }
+
+    public void inAIntDeclaration(AIntDeclaration node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAIntDeclaration(AIntDeclaration node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAIntDeclaration(AIntDeclaration node)
+    {
+        inAIntDeclaration(node);
+        if(node.getSemicolon() != null)
+        {
+            node.getSemicolon().apply(this);
+        }
+        if(node.getVar() != null)
+        {
+            node.getVar().apply(this);
+        }
+        if(node.getInt() != null)
+        {
+            node.getInt().apply(this);
+        }
+        outAIntDeclaration(node);
+    }
+
+    public void inAStringDeclaration(AStringDeclaration node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAStringDeclaration(AStringDeclaration node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAStringDeclaration(AStringDeclaration node)
+    {
+        inAStringDeclaration(node);
+        if(node.getSemicolon() != null)
+        {
+            node.getSemicolon().apply(this);
+        }
+        if(node.getVar() != null)
+        {
+            node.getVar().apply(this);
+        }
+        if(node.getString() != null)
+        {
+            node.getString().apply(this);
+        }
+        outAStringDeclaration(node);
+    }
+
+    public void inADoubleDeclaration(ADoubleDeclaration node)
+    {
+        defaultIn(node);
+    }
+
+    public void outADoubleDeclaration(ADoubleDeclaration node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseADoubleDeclaration(ADoubleDeclaration node)
+    {
+        inADoubleDeclaration(node);
+        if(node.getSemicolon() != null)
+        {
+            node.getSemicolon().apply(this);
+        }
+        if(node.getVar() != null)
+        {
+            node.getVar().apply(this);
+        }
+        if(node.getDouble() != null)
+        {
+            node.getDouble().apply(this);
+        }
+        outADoubleDeclaration(node);
+    }
+
+    public void inAIntInitializationDeclaration(AIntInitializationDeclaration node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAIntInitializationDeclaration(AIntInitializationDeclaration node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAIntInitializationDeclaration(AIntInitializationDeclaration node)
+    {
+        inAIntInitializationDeclaration(node);
+        if(node.getSemicolon() != null)
+        {
+            node.getSemicolon().apply(this);
+        }
+        if(node.getInitialization() != null)
+        {
+            node.getInitialization().apply(this);
+        }
+        if(node.getInt() != null)
+        {
+            node.getInt().apply(this);
+        }
+        outAIntInitializationDeclaration(node);
+    }
+
+    public void inAStringInitializationDeclaration(AStringInitializationDeclaration node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAStringInitializationDeclaration(AStringInitializationDeclaration node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAStringInitializationDeclaration(AStringInitializationDeclaration node)
+    {
+        inAStringInitializationDeclaration(node);
+        if(node.getSemicolon() != null)
+        {
+            node.getSemicolon().apply(this);
+        }
+        if(node.getInitialization() != null)
+        {
+            node.getInitialization().apply(this);
+        }
+        if(node.getString() != null)
+        {
+            node.getString().apply(this);
+        }
+        outAStringInitializationDeclaration(node);
+    }
+
+    public void inADoubleInitializationDeclaration(ADoubleInitializationDeclaration node)
+    {
+        defaultIn(node);
+    }
+
+    public void outADoubleInitializationDeclaration(ADoubleInitializationDeclaration node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseADoubleInitializationDeclaration(ADoubleInitializationDeclaration node)
+    {
+        inADoubleInitializationDeclaration(node);
+        if(node.getSemicolon() != null)
+        {
+            node.getSemicolon().apply(this);
+        }
+        if(node.getInitialization() != null)
+        {
+            node.getInitialization().apply(this);
+        }
+        if(node.getDouble() != null)
+        {
+            node.getDouble().apply(this);
+        }
+        outADoubleInitializationDeclaration(node);
     }
 
     public void inAStringInitialization(AStringInitialization node)

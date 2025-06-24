@@ -48,19 +48,10 @@ Ignored Tokens
   blank, comment;
 
 Productions  
-  program = main l_par r_par l_brace content r_brace;
-
-  content = {content_format} declaration* statement*;
- 
-  declaration = 
-    {int} int var semicolon | 
-    {string} string var semicolon | 
-    {double} double var semicolon | 
-    {int_initialization} int initialization semicolon | 
-    {string_initialization} string initialization semicolon | 
-    {double_initialization} double initialization semicolon;
+  program = main l_par r_par l_brace statement* r_brace;
   
   statement = 
+    {declaration} declaration |
     {print_expr} print l_par expr r_par semicolon | 
     {print_string} print l_par string_literal r_par semicolon |
     {println_expr} println l_par expr r_par semicolon |
@@ -70,6 +61,14 @@ Productions
     {initialization} initialization semicolon |
     {increase_var} var double_plus semicolon |
     {decrease_var} var double_minus semicolon;
+  
+  declaration = 
+    {int} int var semicolon | 
+    {string} string var semicolon | 
+    {double} double var semicolon | 
+    {int_initialization} int initialization semicolon | 
+    {string_initialization} string initialization semicolon | 
+    {double_initialization} double initialization semicolon;
   
   initialization = {string} var equals string_literal | {expr} var equals expr;
   

@@ -3,6 +3,7 @@ import java.io.PushbackReader;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Stack;
 
 import exceptions.IllegalOperation;
 import exceptions.TypeException;
@@ -37,35 +38,38 @@ import tarea.node.Start;
 import tarea.parser.Parser;
 
 public class Interpreter extends DepthFirstAdapter{
-    private final HashMap<String, Object> mapVar = new HashMap<>();
+    private final Stack<HashMap<String, Object>> varScopes = new Stack<>();
     private final Scanner sc = new Scanner(System.in);
+
+    public Interpreter() {
+        varScopes.push(new HashMap<String, Object>()); 
+    }
 
     @Override
     public void caseADoubleDeclaration(ADoubleDeclaration node) {
         String varName = node.getVar().getText();
-        if (mapVar.containsKey(varName)) {
+        if (varScopes.peek().containsKey(varName)) {
             throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
         }
-        mapVar.put(varName, 0.0);
+        varScopes.peek().put(varName, 0.0);
     }
 
     @Override
     public void caseAIntDeclaration(AIntDeclaration node) {
         String varName = node.getVar().getText();
-        if (mapVar.containsKey(varName)){
+        if (varScopes.peek().containsKey(varName)){
             throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
         }
-        mapVar.put(varName, 0);
+        varScopes.peek().put(varName, 0);
     }
 
     @Override
     public void caseAStringDeclaration(AStringDeclaration node) {
         String varName = node.getVar().getText();
-        System.out.println(varName);
-        if (mapVar.containsKey(varName)){
+        if (varScopes.peek().containsKey(varName)){
             throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
         }
-        mapVar.put(varName, null);
+        varScopes.peek().put(varName, null);
     }
 
     @Override
@@ -83,10 +87,10 @@ public class Interpreter extends DepthFirstAdapter{
         }
         AExprInitialization parsedAssignment = (AExprInitialization) init;
         String varName = parsedAssignment.getVar().getText();
-        if (mapVar.containsKey(varName)){
+        if (varScopes.peek().containsKey(varName)){
             throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
         }
-        mapVar.put(varName, new ArithmeticInterpreter(this.mapVar, Double.class).eval(parsedAssignment.getExpr()));
+        varScopes.peek().put(varName, new ArithmeticInterpreter(this.varScopes, Double.class).eval(parsedAssignment.getExpr()));
     }
     
     @Override
@@ -104,10 +108,10 @@ public class Interpreter extends DepthFirstAdapter{
         }
         AExprInitialization parsedAssignment = (AExprInitialization) init;
         String varName = parsedAssignment.getVar().getText();
-        if (mapVar.containsKey(varName)){
+        if (varScopes.peek().containsKey(varName)){
             throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
         }
-        mapVar.put(varName, new ArithmeticInterpreter(this.mapVar, Integer.class).eval(parsedAssignment.getExpr()));
+        varScopes.peek().put(varName, new ArithmeticInterpreter(this.varScopes, Integer.class).eval(parsedAssignment.getExpr()));
     }
     
     @Override
@@ -125,10 +129,10 @@ public class Interpreter extends DepthFirstAdapter{
         }
         AStringInitialization parsedAssignment = (AStringInitialization) init;
         String varName = parsedAssignment.getVar().getText();
-        if (mapVar.containsKey(varName)){
+        if (varScopes.stream().anyMatch(map -> map.containsKey(varName))){
             throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
         }
-        mapVar.put(varName, parsedAssignment.getStringLiteral().getText());
+        varScopes.peek().put(varName, parsedAssignment.getStringLiteral().getText());
     }
 
     @Override
@@ -139,19 +143,19 @@ public class Interpreter extends DepthFirstAdapter{
         if (init instanceof AExprInitialization){
             AExprInitialization parsedAssignment = (AExprInitialization) init;
             varName = parsedAssignment.getVar().getText();
-            varValue = new ArithmeticInterpreter(mapVar, ((Number) mapVar.get(varName)).getClass()).eval(parsedAssignment.getExpr());
+            varValue = new ArithmeticInterpreter(varScopes, ((Number) varScopes.peek().get(varName)).getClass()).eval(parsedAssignment.getExpr());
         }else{
             AStringInitialization parsedAssignment = (AStringInitialization) init;
             varName = parsedAssignment.getVar().getText();
             varValue = parsedAssignment.getStringLiteral().getText();
         }
-        mapVar.put(varName, varValue);
+        varScopes.peek().put(varName, varValue);
     }
 
     @Override
     public void caseAPrintExprStatement(APrintExprStatement node) {
         // Intentar resolver la expresión. Si no resulta, es porque se desea imprimir un string
-        ArithmeticInterpreter ai = new ArithmeticInterpreter(this.mapVar, Double.class);
+        ArithmeticInterpreter ai = new ArithmeticInterpreter(this.varScopes, Double.class);
         try{
             System.out.print(ai.eval(node.getExpr()));
         } catch (TypeException e){
@@ -162,7 +166,7 @@ public class Interpreter extends DepthFirstAdapter{
     @Override
     public void caseAPrintlnExprStatement(APrintlnExprStatement node) {
         // Intentar resolver la expresión. Si no resulta, es porque se desea imprimir un string
-        ArithmeticInterpreter ai = new ArithmeticInterpreter(this.mapVar, Double.class);
+        ArithmeticInterpreter ai = new ArithmeticInterpreter(this.varScopes, Double.class);
         try {
             System.out.println(ai.eval(node.getExpr()));
         } catch (TypeException e) {
@@ -183,56 +187,62 @@ public class Interpreter extends DepthFirstAdapter{
 
     @Override
     public void caseAIfElseFlowControl(AIfElseFlowControl node) {
-        if (new BooleanInterpreter(mapVar).eval(node.getCondition())){
+        varScopes.push(new HashMap<String, Object>());
+        if (new BooleanInterpreter(varScopes).eval(node.getCondition())){
             node.getStatement().forEach(line -> line.apply(this));
         }else{
             ((AElseFlowControl) node.getElseFlowControl()).getStatement().forEach(line -> line.apply(this));
         }
+        varScopes.pop();
     }
 
     @Override
     public void caseAIfFlowControl(AIfFlowControl node) {
-        if (new BooleanInterpreter(mapVar).eval(node.getCondition())){
+        varScopes.push(new HashMap<String, Object>());
+        if (new BooleanInterpreter(varScopes).eval(node.getCondition())){
             node.getStatement().forEach(line -> line.apply(this));
         }
+        varScopes.pop();
     }
 
     @Override
     public void caseAWhileFlowControl(AWhileFlowControl node) {
-        while (new BooleanInterpreter(mapVar).eval(node.getCondition())){
+        varScopes.push(new HashMap<String, Object>());
+        while (new BooleanInterpreter(varScopes).eval(node.getCondition())){
             node.getStatement().forEach(line -> line.apply(this));
         }
+        varScopes.pop();
     }
 
     @Override
     public void caseAIncreaseVarStatement(AIncreaseVarStatement node) {
         String varName = node.getVar().getText();
-        if (!(mapVar.containsKey(varName))){
+        if (!(varScopes.peek().containsKey(varName))){
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
-        if (!(mapVar.get(varName) instanceof Number)) {
+        if (!(varScopes.peek().get(varName) instanceof Number)) {
             throw new IllegalOperation("The operator '++' is undefined for type 'string'");
         }
-        if (mapVar.get(varName) instanceof Integer){
-            mapVar.put(varName, ((Integer) mapVar.get(varName)) + 1);
+        if (varScopes.peek().get(varName) instanceof Integer){
+            varScopes.peek().put(varName, ((Integer) varScopes.peek().get(varName)) + 1);
         }else{
-            mapVar.put(varName, ((Double) mapVar.get(varName)) + 1);
+            varScopes.peek().put(varName, ((Double) varScopes.peek().get(varName)) + 1);
         }
     }
 
     @Override
     public void caseADecreaseVarStatement(ADecreaseVarStatement node) {
         String varName = node.getVar().getText();
-        if (!(mapVar.containsKey(varName))){
+        if (!(varScopes.peek().containsKey(varName))){
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
-        if (!(mapVar.get(varName) instanceof Number)) {
+        if (!(varScopes.peek().get(varName) instanceof Number)) {
             throw new IllegalOperation("The operator '++' is undefined for type 'string'");
         }
-        if (mapVar.get(varName) instanceof Integer){
-            mapVar.put(varName, ((Integer) mapVar.get(varName)) - 1);
+        if (varScopes.peek().get(varName) instanceof Integer){
+            varScopes.peek().put(varName, ((Integer) varScopes.peek().get(varName)) - 1);
         }else{
-            mapVar.put(varName, ((Double) mapVar.get(varName)) - 1);
+            varScopes.peek().put(varName, ((Double) varScopes.peek().get(varName)) - 1);
         }
     }
 
@@ -241,11 +251,11 @@ public class Interpreter extends DepthFirstAdapter{
         String varName = node.getVar().getText();
 
         // Verificar que la variable existe
-        if (!(mapVar.containsKey(varName))) {
+        if (!(varScopes.peek().containsKey(varName))) {
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
         
-        Object currentValue = mapVar.get(varName);
+        Object currentValue = varScopes.peek().get(varName);
         
         // verificar el tipo de variable para saber qué tipo de entrada se espera recibir
         boolean variableEsInt       = currentValue instanceof Integer;
@@ -256,7 +266,7 @@ public class Interpreter extends DepthFirstAdapter{
             if (!s.startsWith("\"") && !s.endsWith("\"")) {
                 s = "\"" + s + "\""; // lo envolvemos como string_literal válido
             }
-            mapVar.put(varName, s);
+            varScopes.peek().put(varName, s);
             return;
         }
 
@@ -274,9 +284,9 @@ public class Interpreter extends DepthFirstAdapter{
             }
             Parser parser = new Parser(new Lexer(new PushbackReader(new StringReader(programa), 1024)));
             Start ast = parser.parse();
-            ArithmeticInterpreter interpreter = new ArithmeticInterpreter(mapVar, Double.class);
+            ArithmeticInterpreter interpreter = new ArithmeticInterpreter(varScopes, Double.class);
             ast.apply(interpreter);
-            mapVar.put(varName, interpreter.stack.pop());
+            varScopes.peek().put(varName, interpreter.stack.pop());
         } catch (Exception e) {
             throw new TypeException("The expression '" + entrada + "' does not match an arithmetic expression. Please check the syntaxis");
         }
@@ -284,6 +294,6 @@ public class Interpreter extends DepthFirstAdapter{
 
     // ================================== MÉTDOS PARA DEBUG ==================================
     public void printVariables(){
-        System.out.println(mapVar);
+        System.out.println(varScopes.peek());
     }
 }
