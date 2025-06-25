@@ -20,12 +20,12 @@ import tarea.node.PCondition;
 import tarea.node.PItem;
 
 public class BooleanInterpreter extends DepthFirstAdapter{
-    private final Stack<HashMap<String, Object>> varScope;
+    private final HashMap<String, Object> mapVar;
     private boolean result;
 
-    public BooleanInterpreter(Stack<HashMap<String, Object>> mapVar) {
+    public BooleanInterpreter(HashMap<String, Object> mapVar) {
         super();
-        this.varScope = mapVar;
+        this.mapVar = mapVar;
     }
 
     public boolean eval(PCondition condition){
@@ -54,7 +54,7 @@ public class BooleanInterpreter extends DepthFirstAdapter{
         String varName = node.getVar().getText();
         
         // Verificar que existe la variable
-        if (!(varScope.stream().anyMatch(map -> map.containsKey(varName)))){
+        if (!(mapVar.containsKey(varName))){
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
 
@@ -62,12 +62,12 @@ public class BooleanInterpreter extends DepthFirstAdapter{
         PItem item = node.getItem();
 
         // Caso item es una expresión aritmética
-        Object value = varScope.stream().filter(map -> map.containsKey(varName)).findFirst().get().get(varName);
+        Object value = mapVar.get(varName);
         if (item instanceof AExprItem) {
             if (!(value instanceof Number)){
                 throw new TypeException("Variable '" + varName + "' does not match a numeric type");
             }
-            result = ((Number) value).doubleValue() == ((Number) new ArithmeticInterpreter(varScope, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
+            result = ((Number) value).doubleValue() == ((Number) new ArithmeticInterpreter(mapVar, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
     
         // Caso item es un string
         } else {
@@ -83,17 +83,17 @@ public class BooleanInterpreter extends DepthFirstAdapter{
         String varName = node.getVar().getText();
 
         // Verificar que existe la variable
-        if (!(varScope.stream().anyMatch(map -> map.containsKey(varName)))){
+        if (!(mapVar.containsKey(varName))){
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
 
         // Verificar si corresponde al tipo adecuado que se está comparando
         PItem item = node.getItem();
-        Object value = varScope.stream().filter(map -> map.containsKey(varName)).findFirst().get().get(varName);
+        Object value = mapVar.get(varName);
         if (item instanceof AStringItem || value instanceof String) {
             throw new IllegalOperation(" The operator '>=' is undefined for type 'string' ");
         }
-        result = ((Number) value).doubleValue() >= ((Number) new ArithmeticInterpreter(varScope, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
+        result = ((Number) value).doubleValue() >= ((Number) new ArithmeticInterpreter(mapVar, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
     }
 
     @Override
@@ -101,17 +101,17 @@ public class BooleanInterpreter extends DepthFirstAdapter{
         String varName = node.getVar().getText();
 
         // Verificar que existe la variable
-        if (!(varScope.stream().anyMatch(map -> map.containsKey(varName)))){
+        if (!(mapVar.containsKey(varName))){
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
 
         // Verificar si corresponde al tipo adecuado que se está comparando
         PItem item = node.getItem();
-        Object value = varScope.stream().filter(map -> map.containsKey(varName)).findFirst().get().get(varName);
+        Object value = mapVar.get(varName);
         if (item instanceof AStringItem || value instanceof String) {
             throw new IllegalOperation(" The operator '>' is undefined for type 'string' ");
         }
-        result = ((Number) value).doubleValue() > ((Number) new ArithmeticInterpreter(varScope, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
+        result = ((Number) value).doubleValue() > ((Number) new ArithmeticInterpreter(mapVar, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
     }
 
     @Override
@@ -119,17 +119,17 @@ public class BooleanInterpreter extends DepthFirstAdapter{
         String varName = node.getVar().getText();
 
         // Verificar que existe la variable
-        if (!(varScope.stream().anyMatch(map -> map.containsKey(varName)))){
+        if (!(mapVar.containsKey(varName))){
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
 
         // Verificar si corresponde al tipo adecuado que se está comparando
         PItem item = node.getItem();
-        Object value = varScope.stream().filter(map -> map.containsKey(varName)).findFirst().get().get(varName);
+        Object value = mapVar.get(varName);
         if (item instanceof AStringItem || value instanceof String) {
             throw new IllegalOperation(" The operator '<=' is undefined for type 'string' ");
         }
-        result = ((Number) value).doubleValue() <= ((Number) new ArithmeticInterpreter(varScope, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
+        result = ((Number) value).doubleValue() <= ((Number) new ArithmeticInterpreter(mapVar, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
     }
 
     @Override
@@ -137,17 +137,17 @@ public class BooleanInterpreter extends DepthFirstAdapter{
         String varName = node.getVar().getText();
 
         // Verificar que existe la variable
-        if (!(varScope.stream().anyMatch(map -> map.containsKey(varName)))){
+        if (!(mapVar.containsKey(varName))){
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
 
         // Verificar si corresponde al tipo adecuado que se está comparando
         PItem item = node.getItem();
-        Object value = varScope.stream().filter(map -> map.containsKey(varName)).findFirst().get().get(varName);
+        Object value = mapVar.get(varName);
         if (item instanceof AStringItem || value instanceof String) {
             throw new IllegalOperation(" The operator '<' is undefined for type 'string' ");
         }
-        result = ((Number) value).doubleValue() < ((Number) new ArithmeticInterpreter(varScope, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
+        result = ((Number) value).doubleValue() < ((Number) new ArithmeticInterpreter(mapVar, Double.class).eval(((AExprItem) item).getExpr())).doubleValue();
     }
 
     @Override
@@ -155,20 +155,20 @@ public class BooleanInterpreter extends DepthFirstAdapter{
         String varName = node.getVar().getText();
         
         // Verificar que existe la variable
-        if (!(varScope.stream().anyMatch(map -> map.containsKey(varName)))){
+        if (!(mapVar.containsKey(varName))){
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
 
         // Verificar si corresponde al tipo adecuado que se está comparando
         PItem item = node.getItem();
-        Object value = varScope.stream().filter(map -> map.containsKey(varName)).findFirst().get().get(varName);
+        Object value = mapVar.get(varName);
 
         // Caso item es una expresión aritmética
         if (item instanceof AExprItem) {
             if (!(value instanceof Number)){
                 throw new TypeException("Variable '" + varName + "' does not match a numeric type");
             }
-            result = value != new ArithmeticInterpreter(varScope, Double.class).eval(((AExprItem) item).getExpr());
+            result = value != new ArithmeticInterpreter(mapVar, Double.class).eval(((AExprItem) item).getExpr());
     
         // Caso item es un string
         } else {

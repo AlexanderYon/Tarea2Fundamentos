@@ -16,7 +16,7 @@ import tarea.node.AVarTerm;
 import tarea.node.PExpr;
 
 public class ArithmeticInterpreter extends DepthFirstAdapter {
-    private Stack<HashMap<String, Object>> varScope;
+    private HashMap<String, Object> mapVar;
     public Stack<Object> stack = new Stack<>();
     /* Guardará el primer valor de tipo string que encuentre si es que lo hace 
      * Será util para comunicarle al Interpreter que se procesó un texto y, posiblmente el usuario
@@ -25,9 +25,9 @@ public class ArithmeticInterpreter extends DepthFirstAdapter {
     public String conflict;
     private final Class<? extends Number> typeNumber;
 
-    public ArithmeticInterpreter(Stack<HashMap<String, Object>> varScope, Class<? extends Number> typeNumber) {
+    public ArithmeticInterpreter(HashMap<String, Object> mapVar, Class<? extends Number> typeNumber) {
         super();
-        this.varScope = varScope;
+        this.mapVar = mapVar;
         this.typeNumber = typeNumber;
     }
 
@@ -63,12 +63,12 @@ public class ArithmeticInterpreter extends DepthFirstAdapter {
     public void caseAVarTerm(AVarTerm node) {
         String varName = node.getVar().getText();
         // Verificar que la variable exista
-        if (!(varScope.stream().anyMatch(map -> map.containsKey(varName)))){
+        if (!(mapVar.containsKey(varName))){
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
 
         // Verificar que la variable sea del tipo correcto (número)
-        Object varValue = varScope.stream().filter(map -> map.containsKey(varName)).findFirst().get().get(varName);
+        Object varValue = mapVar.get(varName);
         if (!(varValue instanceof Number)){
             conflict = String.valueOf(varValue);
             throw new TypeException("Variable '" + varName + "' doesn't match a numeric type");

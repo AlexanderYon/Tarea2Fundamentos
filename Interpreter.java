@@ -2,7 +2,9 @@ import java.io.InputStreamReader;
 import java.io.PushbackReader;
 import java.io.StringReader;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.Stack;
 
 import exceptions.IllegalOperation;
@@ -38,38 +40,34 @@ import tarea.node.Start;
 import tarea.parser.Parser;
 
 public class Interpreter extends DepthFirstAdapter{
-    private final Stack<HashMap<String, Object>> varScopes = new Stack<>();
+    private final HashMap<String, Object> variables = new HashMap<>();
     private final Scanner sc = new Scanner(System.in);
-
-    public Interpreter() {
-        varScopes.push(new HashMap<String, Object>()); 
-    }
 
     @Override
     public void caseADoubleDeclaration(ADoubleDeclaration node) {
         String varName = node.getVar().getText();
-        if (varScopes.peek().containsKey(varName)) {
-            throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
+        if (containsVar(varName)){
+            throw new VariableNotDeclared("Variable '" + varName + "' has been already declared");
         }
-        varScopes.peek().put(varName, 0.0);
+        variables.put(varName, 0.0);
     }
 
     @Override
     public void caseAIntDeclaration(AIntDeclaration node) {
         String varName = node.getVar().getText();
-        if (varScopes.peek().containsKey(varName)){
-            throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
+        if (containsVar(varName)){
+            throw new VariableNotDeclared("Variable '" + varName + "' has been already declared");
         }
-        varScopes.peek().put(varName, 0);
+        variables.put(varName, 0);
     }
 
     @Override
     public void caseAStringDeclaration(AStringDeclaration node) {
         String varName = node.getVar().getText();
-        if (varScopes.peek().containsKey(varName)){
-            throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
+        if (containsVar(varName)){
+            throw new VariableNotDeclared("Variable '" + varName + "' has been already declared");
         }
-        varScopes.peek().put(varName, null);
+        variables.put(varName, null);
     }
 
     @Override
@@ -81,16 +79,14 @@ public class Interpreter extends DepthFirstAdapter{
         NO se puede asignar un valor string_literal a una variable declarada como double.
         */
         if (init instanceof AStringInitialization){
-            AStringInitialization parsedAssignment = (AStringInitialization) init;
-            String varValue = parsedAssignment.getStringLiteral().getText();
-            throw new TypeException("Value '" + varValue + "' does not match type 'double'");
+            throw new TypeException("Value '" + ((AStringInitialization) init).getStringLiteral().getText() + "' does not match type 'double'");
         }
         AExprInitialization parsedAssignment = (AExprInitialization) init;
         String varName = parsedAssignment.getVar().getText();
-        if (varScopes.peek().containsKey(varName)){
-            throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
+        if (containsVar(varName)){
+            throw new VariableAlreadyDeclared("Variable '" + varName + "' has been already declared");
         }
-        varScopes.peek().put(varName, new ArithmeticInterpreter(this.varScopes, Double.class).eval(parsedAssignment.getExpr()));
+        variables.put(varName, new ArithmeticInterpreter(this.variables, Double.class).eval(parsedAssignment.getExpr()));
     }
     
     @Override
@@ -102,16 +98,14 @@ public class Interpreter extends DepthFirstAdapter{
         NO se puede asignar un valor string_literal a una variable declarada como int.
         */
         if (init instanceof AStringInitialization){
-            AStringInitialization parsedAssignment = (AStringInitialization) init;
-            String varValue = parsedAssignment.getStringLiteral().getText();
-            throw new TypeException("Value '" + varValue + "' does not match type 'int'");
+            throw new TypeException("Value '" + ((AStringInitialization) init).getStringLiteral().getText() + "' does not match type 'int'");
         }
         AExprInitialization parsedAssignment = (AExprInitialization) init;
         String varName = parsedAssignment.getVar().getText();
-        if (varScopes.peek().containsKey(varName)){
-            throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
+        if (containsVar(varName)){
+            throw new VariableAlreadyDeclared("Variable '" + varName + "' has been already declared");
         }
-        varScopes.peek().put(varName, new ArithmeticInterpreter(this.varScopes, Integer.class).eval(parsedAssignment.getExpr()));
+        variables.put(varName, new ArithmeticInterpreter(this.variables, Integer.class).eval(parsedAssignment.getExpr()));
     }
     
     @Override
@@ -129,10 +123,10 @@ public class Interpreter extends DepthFirstAdapter{
         }
         AStringInitialization parsedAssignment = (AStringInitialization) init;
         String varName = parsedAssignment.getVar().getText();
-        if (varScopes.stream().anyMatch(map -> map.containsKey(varName))){
-            throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
+        if (containsVar(varName)){
+            throw new VariableAlreadyDeclared("Variable '" + varName + "' has been already declared");
         }
-        varScopes.peek().put(varName, parsedAssignment.getStringLiteral().getText());
+        variables.put(varName, parsedAssignment.getStringLiteral().getText());
     }
 
     @Override
@@ -143,19 +137,19 @@ public class Interpreter extends DepthFirstAdapter{
         if (init instanceof AExprInitialization){
             AExprInitialization parsedAssignment = (AExprInitialization) init;
             varName = parsedAssignment.getVar().getText();
-            varValue = new ArithmeticInterpreter(varScopes, ((Number) varScopes.peek().get(varName)).getClass()).eval(parsedAssignment.getExpr());
+            varValue = new ArithmeticInterpreter(variables, ((Number) variables.get(varName)).getClass()).eval(parsedAssignment.getExpr());
         }else{
             AStringInitialization parsedAssignment = (AStringInitialization) init;
             varName = parsedAssignment.getVar().getText();
             varValue = parsedAssignment.getStringLiteral().getText();
         }
-        varScopes.peek().put(varName, varValue);
+        variables.put(varName, varValue);
     }
 
     @Override
     public void caseAPrintExprStatement(APrintExprStatement node) {
         // Intentar resolver la expresión. Si no resulta, es porque se desea imprimir un string
-        ArithmeticInterpreter ai = new ArithmeticInterpreter(this.varScopes, Double.class);
+        ArithmeticInterpreter ai = new ArithmeticInterpreter(this.variables, Double.class);
         try{
             System.out.print(ai.eval(node.getExpr()));
         } catch (TypeException e){
@@ -166,7 +160,7 @@ public class Interpreter extends DepthFirstAdapter{
     @Override
     public void caseAPrintlnExprStatement(APrintlnExprStatement node) {
         // Intentar resolver la expresión. Si no resulta, es porque se desea imprimir un string
-        ArithmeticInterpreter ai = new ArithmeticInterpreter(this.varScopes, Double.class);
+        ArithmeticInterpreter ai = new ArithmeticInterpreter(this.variables, Double.class);
         try {
             System.out.println(ai.eval(node.getExpr()));
         } catch (TypeException e) {
@@ -187,62 +181,87 @@ public class Interpreter extends DepthFirstAdapter{
 
     @Override
     public void caseAIfElseFlowControl(AIfElseFlowControl node) {
-        varScopes.push(new HashMap<String, Object>());
-        if (new BooleanInterpreter(varScopes).eval(node.getCondition())){
+        Set<String> oldVars = new HashSet<>(variables.keySet()); // copiar variables antes de entrar al contexto
+        if (new BooleanInterpreter(variables).eval(node.getCondition())){
             node.getStatement().forEach(line -> line.apply(this));
         }else{
             ((AElseFlowControl) node.getElseFlowControl()).getStatement().forEach(line -> line.apply(this));
         }
-        varScopes.pop();
+        Set<String> currentVars = new HashSet<>(variables.keySet()); // copiar variables luego de salir del contexto
+        currentVars.removeAll(oldVars);
+
+        // Eliminar las variables nuevas que se crearon
+        for (String newVar : currentVars){
+            variables.remove(newVar);
+        }
     }
 
     @Override
     public void caseAIfFlowControl(AIfFlowControl node) {
-        varScopes.push(new HashMap<String, Object>());
-        if (new BooleanInterpreter(varScopes).eval(node.getCondition())){
+        Set<String> oldVars = new HashSet<>(variables.keySet()); // copiar variables antes de entrar al contexto
+        if (new BooleanInterpreter(variables).eval(node.getCondition())){
             node.getStatement().forEach(line -> line.apply(this));
         }
-        varScopes.pop();
+        Set<String> currentVars = new HashSet<>(variables.keySet()); // copiar variables luego de salir del contexto
+        currentVars.removeAll(oldVars);
+
+        // Eliminar las variables nuevas que se crearon
+        for (String newVar : currentVars){
+            variables.remove(newVar);
+        }
     }
 
     @Override
     public void caseAWhileFlowControl(AWhileFlowControl node) {
-        varScopes.push(new HashMap<String, Object>());
-        while (new BooleanInterpreter(varScopes).eval(node.getCondition())){
+        Set<String> oldVars = new HashSet<>(variables.keySet()); // copiar variables antes de entrar al contexto
+        while (new BooleanInterpreter(variables).eval(node.getCondition())){
             node.getStatement().forEach(line -> line.apply(this));
+            Set<String> currentVars = new HashSet<>(variables.keySet()); // copiar variables luego de salir del contexto
+            currentVars.removeAll(oldVars);
+    
+            // Eliminar las variables nuevas que se crearon
+            for (String newVar : currentVars){
+                variables.remove(newVar);
+            }
         }
-        varScopes.pop();
+        Set<String> currentVars = new HashSet<>(variables.keySet()); // copiar variables luego de salir del contexto
+        currentVars.removeAll(oldVars);
+
+        // Eliminar las variables nuevas que se crearon
+        for (String newVar : currentVars) {
+            variables.remove(newVar);
+        }
     }
 
     @Override
     public void caseAIncreaseVarStatement(AIncreaseVarStatement node) {
         String varName = node.getVar().getText();
-        if (!(varScopes.peek().containsKey(varName))){
+        if (!(variables.containsKey(varName))){
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
-        if (!(varScopes.peek().get(varName) instanceof Number)) {
+        if (!(variables.get(varName) instanceof Number)) {
             throw new IllegalOperation("The operator '++' is undefined for type 'string'");
         }
-        if (varScopes.peek().get(varName) instanceof Integer){
-            varScopes.peek().put(varName, ((Integer) varScopes.peek().get(varName)) + 1);
+        if (variables.get(varName) instanceof Integer){
+            variables.put(varName, ((Integer) variables.get(varName)) + 1);
         }else{
-            varScopes.peek().put(varName, ((Double) varScopes.peek().get(varName)) + 1);
+            variables.put(varName, ((Double) variables.get(varName)) + 1);
         }
     }
 
     @Override
     public void caseADecreaseVarStatement(ADecreaseVarStatement node) {
         String varName = node.getVar().getText();
-        if (!(varScopes.peek().containsKey(varName))){
+        if (!(variables.containsKey(varName))){
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
-        if (!(varScopes.peek().get(varName) instanceof Number)) {
+        if (!(variables.get(varName) instanceof Number)) {
             throw new IllegalOperation("The operator '++' is undefined for type 'string'");
         }
-        if (varScopes.peek().get(varName) instanceof Integer){
-            varScopes.peek().put(varName, ((Integer) varScopes.peek().get(varName)) - 1);
+        if (variables.get(varName) instanceof Integer){
+            variables.put(varName, ((Integer) variables.get(varName)) - 1);
         }else{
-            varScopes.peek().put(varName, ((Double) varScopes.peek().get(varName)) - 1);
+            variables.put(varName, ((Double) variables.get(varName)) - 1);
         }
     }
 
@@ -251,11 +270,11 @@ public class Interpreter extends DepthFirstAdapter{
         String varName = node.getVar().getText();
 
         // Verificar que la variable existe
-        if (!(varScopes.peek().containsKey(varName))) {
+        if (!(variables.containsKey(varName))) {
             throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
         }
         
-        Object currentValue = varScopes.peek().get(varName);
+        Object currentValue = variables.get(varName);
         
         // verificar el tipo de variable para saber qué tipo de entrada se espera recibir
         boolean variableEsInt       = currentValue instanceof Integer;
@@ -266,7 +285,7 @@ public class Interpreter extends DepthFirstAdapter{
             if (!s.startsWith("\"") && !s.endsWith("\"")) {
                 s = "\"" + s + "\""; // lo envolvemos como string_literal válido
             }
-            varScopes.peek().put(varName, s);
+            variables.put(varName, s);
             return;
         }
 
@@ -284,16 +303,30 @@ public class Interpreter extends DepthFirstAdapter{
             }
             Parser parser = new Parser(new Lexer(new PushbackReader(new StringReader(programa), 1024)));
             Start ast = parser.parse();
-            ArithmeticInterpreter interpreter = new ArithmeticInterpreter(varScopes, Double.class);
+            ArithmeticInterpreter interpreter = new ArithmeticInterpreter(variables, Double.class);
             ast.apply(interpreter);
-            varScopes.peek().put(varName, interpreter.stack.pop());
+            variables.put(varName, interpreter.stack.pop());
         } catch (Exception e) {
             throw new TypeException("The expression '" + entrada + "' does not match an arithmetic expression. Please check the syntaxis");
         }
     }
 
-    // ================================== MÉTDOS PARA DEBUG ==================================
+    private boolean containsVar(String varName) {
+        return variables.containsKey(varName);
+    }
+
+    private void checkContainsVar(String varName) throws VariableNotDeclared{
+        if (!containsVar(varName)){
+            throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
+        }
+    }
+
+    private Object get(String varName){
+        return variables.get(varName);
+    }
+
+    // =============================================== MÉTDOS PARA DEBUG ===============================================
     public void printVariables(){
-        System.out.println(varScopes.peek());
+        System.out.println(variables);
     }
 }
