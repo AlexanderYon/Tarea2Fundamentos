@@ -11,6 +11,5 @@ public class Main {
         Start ast = parser.parse();    
         Interpreter interpreter = new Interpreter();
         ast.apply(interpreter);
-        interpreter.printVariables();
     }
 }
