@@ -1,4 +1,0 @@
-main() {
-  string opcion = "y";
-  double numero = 1/4;
-}
