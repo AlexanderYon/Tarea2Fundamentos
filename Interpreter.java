@@ -65,7 +65,7 @@ public class Interpreter extends DepthFirstAdapter{
         if (mapVar.containsKey(varName)){
             throw new VariableAlreadyDeclared("Variable '" + varName + "' has already been declared");
         }
-        mapVar.put(varName, null);
+        mapVar.put(varName, "");
     }
 
     @Override
@@ -261,6 +261,10 @@ public class Interpreter extends DepthFirstAdapter{
         }
 
         String entrada = sc.nextLine().trim();
+        if (variableEsString){
+            mapVar.put(varName, entrada);
+            return;
+        }
 
         try {
             String programa;
@@ -274,7 +278,7 @@ public class Interpreter extends DepthFirstAdapter{
             }
             Parser parser = new Parser(new Lexer(new PushbackReader(new StringReader(programa), 1024)));
             Start ast = parser.parse();
-            ArithmeticInterpreter interpreter = new ArithmeticInterpreter(mapVar, Double.class);
+            ArithmeticInterpreter interpreter = (variableEsInt) ? new ArithmeticInterpreter(mapVar, Integer.class) : new ArithmeticInterpreter(mapVar, Double.class);
             ast.apply(interpreter);
             mapVar.put(varName, interpreter.stack.pop());
         } catch (Exception e) {
