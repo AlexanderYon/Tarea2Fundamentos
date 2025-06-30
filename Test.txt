@@ -1,15 +1,6 @@
 main() {
-    int num1;
-    double num2;
-    string str;
-    
-    print("Ingrese expresion: ");
-    input(num1);
-    println(num1);
-    print("Ingrese expresion: ");
-    input(num2);
-    println(num2);
-    print("Ingrese expresion: ");
-    input(str);
-    println(str);
+    int x;
+    int y = 9;
+    int z;
+    int w = 7;
 }

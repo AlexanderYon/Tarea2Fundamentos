@@ -139,10 +139,16 @@ public class Interpreter extends DepthFirstAdapter{
         if (init instanceof AExprInitialization){
             AExprInitialization parsedAssignment = (AExprInitialization) init;
             varName = parsedAssignment.getVar().getText();
+            if (!mapVar.containsKey(varName)) {
+                throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
+            }
             varValue = new ArithmeticInterpreter(mapVar, ((Number) mapVar.get(varName)).getClass()).eval(parsedAssignment.getExpr());
         }else{
             AStringInitialization parsedAssignment = (AStringInitialization) init;
             varName = parsedAssignment.getVar().getText();
+            if (!mapVar.containsKey(varName)) {
+                throw new VariableNotDeclared("Variable '" + varName + "' has not been declared yet");
+            }
             varValue = parsedAssignment.getStringLiteral().getText();
         }
         mapVar.put(varName, varValue);
@@ -153,7 +159,12 @@ public class Interpreter extends DepthFirstAdapter{
         // Intentar resolver la expresión. Si no resulta, es porque se desea imprimir un string
         ArithmeticInterpreter ai = new ArithmeticInterpreter(this.mapVar, Double.class);
         try{
-            System.out.print(ai.eval(node.getExpr()));
+            Object result = ai.eval(node.getExpr());
+            if (((Number) result).doubleValue() == Math.floor(((Number) result).doubleValue())){
+                System.out.print(((Number) result).intValue());
+            } else {
+                System.out.print(((Number) result).doubleValue());
+            }
         } catch (TypeException e){
             System.out.print(ai.conflict.substring(1, ai.conflict.length() - 1));
         }
@@ -164,7 +175,12 @@ public class Interpreter extends DepthFirstAdapter{
         // Intentar resolver la expresión. Si no resulta, es porque se desea imprimir un string
         ArithmeticInterpreter ai = new ArithmeticInterpreter(this.mapVar, Double.class);
         try {
-            System.out.println(ai.eval(node.getExpr()));
+            Object result = ai.eval(node.getExpr());
+            if (((Number) result).doubleValue() == Math.floor(((Number) result).doubleValue())){
+                System.out.println(((Number) result).intValue());
+            } else {
+                System.out.println(((Number) result).doubleValue());
+            }
         } catch (TypeException e) {
             System.out.println(ai.conflict.substring(1, ai.conflict.length() - 1));
         }
